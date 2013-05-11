@@ -1,12 +1,12 @@
 require "cyoi/cli/provider"
 
-describe "provider choices aleady made" do
+describe Cyoi::Cli::Provider do
   let(:settings_dir) { "~/.cyoi_client_lib" }
   before { @cli ||= Cyoi::Cli::Provider.new(settings_dir) }
   include SettingsHelper
   include StdoutCapture
 
-  it "aws/us-west-2" do
+  it "provider choices already made" do
     setting "provider.name", "aws"
     setting "provider.credentials.aws_access_key_id", "aws_access_key_id"
     setting "provider.credentials.aws_secret_access_key", "aws_secret_access_key"
