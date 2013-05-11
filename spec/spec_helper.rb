@@ -10,7 +10,12 @@ $:.unshift(File.expand_path("../../lib", __FILE__))
 
 require "rspec/core"
 require "cyoi"
+require "cyoi/cli/provider"
+
 require "aruba/api"
+require 'aruba/in_process'
+Aruba::InProcess.main_class = Cyoi::Cli::Provider
+Aruba.process = Aruba::InProcess
 
 # for the #sh helper
 require "rake"

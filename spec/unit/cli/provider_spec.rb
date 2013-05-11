@@ -1,5 +1,3 @@
-require "cyoi/cli/provider"
-
 describe Cyoi::Cli::Provider do
   include Cyoi::Cli::Helpers::Settings
   include SettingsHelper
