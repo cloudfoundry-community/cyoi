@@ -14,7 +14,7 @@ A library to ask an end-user to choose an infrastructure (AWS, OpenStack, etc), 
 
 This library was extracted from [inception-server](https://github.com/drnic/inception-server) for reuse by [bosh-bootstrap](https://github.com/StarkAndWayne/bosh-bootstrap). It might also be useful to your own CLI applications that need to ask a user to give you their infrastructure credentials/region so your application can control their infrastructure (say via [fog](http://fog.io)).
 README
-  spec.homepage      = ""
+  spec.homepage      = "https://github.com/drnic/cyoi"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files`.split($/)
