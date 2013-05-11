@@ -10,7 +10,8 @@ module StdoutCapture
     out = StringIO.new
     $stdout = out
     yield
-    return out
+    out.rewind
+    return out.read
   ensure
     $stdout = STDOUT
   end
