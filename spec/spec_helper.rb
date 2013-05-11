@@ -10,7 +10,7 @@ $:.unshift(File.expand_path("../../lib", __FILE__))
 
 require "rspec/core"
 require "cyoi"
-# require "cyoi/cli"
+require "aruba/api"
 
 # for the #sh helper
 require "rake"
@@ -32,6 +32,9 @@ def setup_home_dir
   ENV['HOME'] = home_dir
 end
 
+def setup_path
+  ENV['PATH'] = File.expand_path("../../bin", __FILE__) + ":" + ENV['PATH']
+end
 # returns the file path to a file
 # in the fake $HOME folder
 def home_file(*path)
@@ -41,6 +44,7 @@ end
 RSpec.configure do |c|
   c.before do
     setup_home_dir
+    setup_path
   end
 
   c.color_enabled = true

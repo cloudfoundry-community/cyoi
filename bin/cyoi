@@ -1,0 +1,9 @@
+#!/usr/bin/env ruby
+$:.push File.dirname(__FILE__) + '/../lib'
+
+require "rubygems"
+require "cyoi/cli/provider"
+
+# interface assumed by aruba in-process testing
+# https://github.com/cucumber/aruba#testing-ruby-cli-programs-without-spawning-a-new-ruby-process
+Cyoi::Cli::Provider.new(ARGV.dup).execute!

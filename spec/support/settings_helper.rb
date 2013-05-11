@@ -7,8 +7,4 @@ module SettingsHelper
     settings.set(nested_key, value)
   end
 
-  # used by +SettingsSetter+ to access the settings
-  def settings
-    cli.settings
-  end
 end
