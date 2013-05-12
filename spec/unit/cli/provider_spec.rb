@@ -22,7 +22,6 @@ describe Cyoi::Cli::Provider do
 1. AWS
 2. OpenStack
 Choose your infrastructure: 
-
 Using provider AWS:
 
 1. *US East (Northern Virginia) Region (us-east-1)
@@ -34,7 +33,6 @@ Using provider AWS:
 7. Asia Pacific (Tokyo) Region (ap-northeast-1)
 8. South America (Sao Paulo) Region (sa-east-1)
 Choose AWS region: 
-
 Confirming: Using aws/us-west-2
     OUT
   end

@@ -1,7 +1,7 @@
 require "cyoi/cli/providers/provider_cli"
 class Cyoi::Cli::Providers::ProviderCliAws < Cyoi::Cli::Providers::ProviderCli
   def perform_and_return_attributes
-    puts "\n\nUsing provider AWS:\n\n"
+    puts "\nUsing provider AWS:\n\n"
     choose_region_if_necessary
     collect_credentials
     export_attributes
@@ -24,7 +24,7 @@ class Cyoi::Cli::Providers::ProviderCliAws < Cyoi::Cli::Providers::ProviderCli
       end
       menu.default = default_menu_item if default_menu_item
     end
-    puts "\n\n"
+    puts "\n"
   end
 
   def collect_credentials

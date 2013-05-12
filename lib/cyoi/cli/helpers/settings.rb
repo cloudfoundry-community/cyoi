@@ -1,4 +1,5 @@
 require "settingslogic"
+require "fileutils"
 
 module Cyoi::Cli::Helpers::Settings
   include FileUtils
