@@ -15,11 +15,18 @@ class Cyoi::Cli::Providers::ProviderCli
     attributes.to_nested_hash
   end
 
+  # Only a subclass can represent valid infrastruct
+  # If using this class directly, then it has not yet decided
+  # which provider/infrastructure to use
   def valid_infrastructure?
-    raise "please implement in subclass"
+    false
   end
 
   def display_confirmation
     raise "please implement in subclass"
+  end
+
+  def say(message, *args)
+    puts(message)
   end
 end

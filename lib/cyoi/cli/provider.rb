@@ -1,4 +1,5 @@
 require "cyoi/cli"
+require "cyoi/cli/auto_detection"
 require "cyoi/cli/helpers"
 class Cyoi::Cli::Provider
   include Cyoi::Cli::Helpers
@@ -11,7 +12,8 @@ class Cyoi::Cli::Provider
 
   def execute!
     unless valid_infrastructure?
-      choose_provider_if_necessary
+      auto_detection unless settings.exists?("provider.name")
+      choose_provider unless settings.exists?("provider.name")
       settings["provider"] = provider_cli.perform_and_return_attributes
       save_settings!
     end
@@ -49,8 +51,15 @@ class Cyoi::Cli::Provider
     provider_cli && provider_cli.valid_infrastructure?
   end
 
+  def auto_detection
+    ui = Cyoi::Cli::AutoDetection::UI.new(settings.provider, hl)
+    ui.perform
+    settings["provider"] = ui.export_attributes
+    save_settings!
+  end
+
   # Prompts user to pick from the supported regions
-  def choose_provider_if_necessary
+  def choose_provider
     hl.choose do |menu|
       menu.prompt = "Choose your infrastructure: "
       menu.choice("AWS") do
@@ -60,5 +69,6 @@ class Cyoi::Cli::Provider
         settings.provider["name"] = "openstack"
       end
     end
+    save_settings!
   end
 end

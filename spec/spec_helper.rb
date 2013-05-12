@@ -32,6 +32,31 @@ Dir[File.dirname(__FILE__) + '/support/*'].each do |path|
   require path unless File.directory?(path)
 end
 
+def setup_fog_with_various_accounts_setup
+  File.open(File.expand_path("~/.fog"), "w") do |f|
+    f << {
+      default: {
+        aws_access_key_id: "PERSONAL_ACCESS_KEY",
+        aws_secret_access_key: "PERSONAL_SECRET",
+        openstack_username: "USERNAME",
+        openstack_api_key: "PASSWORD",
+        openstack_tenant: "TENANT",
+        openstack_auth_url: "URL"
+      },
+      starkandwayne: {
+        aws_access_key_id: "PERSONAL_ACCESS_KEY",
+        aws_secret_access_key: "PERSONAL_SECRET",
+      },
+      personal: {
+        openstack_username: "USERNAME",
+        openstack_api_key: "PASSWORD",
+        openstack_tenant: "TENANT",
+        openstack_auth_url: "URL"
+      }
+    }.to_yaml
+  end
+end
+
 def spec_asset(filename)
   File.expand_path("../assets/#{filename}", __FILE__)
 end

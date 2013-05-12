@@ -1,19 +1,22 @@
 require "cyoi/cli/providers/provider_cli"
 class Cyoi::Cli::Providers::ProviderCliOpenStack < Cyoi::Cli::Providers::ProviderCli
   def perform_and_return_attributes
-    puts "\nUsing provider OpenStack\n"
-    setup_credentials
-    choose_region
+    unless valid_infrastructure?
+      puts "\nUsing provider OpenStack\n"
+      setup_credentials
+      choose_region
+    end
     export_attributes
   end
 
   def setup_credentials
     puts "\n"
     attributes.set_default("credentials", {})
-    attributes.credentials["openstack_username"] = hl.ask("Username: ")
-    attributes.credentials["openstack_api_key"] = hl.ask("Password: ")
-    attributes.credentials["openstack_tenant"] = hl.ask("Tenant: ")
-    attributes.credentials["openstack_auth_url"] = hl.ask("Authorization Token URL: ")
+    credentials = attributes.credentials
+    credentials["openstack_username"] = hl.ask("Username: ") unless credentials.exists?("openstack_username")
+    credentials["openstack_api_key"] = hl.ask("Password: ") unless credentials.exists?("openstack_api_key")
+    credentials["openstack_tenant"] = hl.ask("Tenant: ") unless credentials.exists?("openstack_tenant")
+    credentials["openstack_auth_url"] = hl.ask("Authorization Token URL: ") unless credentials.exists?("openstack_auth_url")
   end
 
   def choose_region
@@ -22,6 +25,7 @@ class Cyoi::Cli::Providers::ProviderCliOpenStack < Cyoi::Cli::Providers::Provide
   end
 
   def valid_infrastructure?
+    attributes.exists?("region") &&
     attributes.exists?("credentials.openstack_username") &&
     attributes.exists?("credentials.openstack_api_key") &&
     attributes.exists?("credentials.openstack_tenant") &&

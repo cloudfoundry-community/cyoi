@@ -23,7 +23,6 @@ describe "cyoi openstack" do
     type("TENANT")
     type("TOKENURL")
     type("")
-    type("2")
     type("")
     assert_passing_with(<<-OUT)
 1. AWS
@@ -45,7 +44,6 @@ Confirming: Using OpenStack
     type("TENANT")
     type("TOKENURL")
     type("REGION")
-    type("2")
     type("")
     assert_passing_with(<<-OUT)
 1. AWS
@@ -54,6 +52,29 @@ Choose your infrastructure:
 Using provider OpenStack
 
 Username: Password: Tenant: Authorization Token URL: 
+OpenStack Region (optional): 
+Confirming: Using OpenStack/REGION
+    OUT
+  end
+
+  it "auto-detects several openstack options in ~/.fog" do
+    setup_home_dir
+    setup_fog_with_various_accounts_setup
+    run_interactive(unescape("cyoi #{settings_dir}"))
+    type("4")
+    type("REGION")
+    type("")
+    assert_passing_with(<<-OUT)
+Auto-detected infrastructure API credentials at ~/.fog (override with $FOG)
+1. AWS (default)
+2. OpenStack (default)
+3. AWS (starkandwayne)
+4. OpenStack (personal)
+5. Alternate credentials
+Choose an auto-detected infrastructure:  
+Using provider OpenStack
+
+
 OpenStack Region (optional): 
 Confirming: Using OpenStack/REGION
     OUT
