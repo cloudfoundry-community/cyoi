@@ -10,13 +10,37 @@ class Cyoi::Cli::Provider
 
   def execute!
     unless valid_infrastructure?
-      choose_provider
-      settings.provider["region"] = "us-west-2"
-      settings.provider["credentials"] = {}
+      choose_provider_if_necessary
+      provider_cli.choose_region_if_necessary
+      provider_cli.collect_credentials
+      settings["provider"] = provider_cli.export_attributes
       save_settings!
     end
     @stdout.puts "Confirming: Using #{settings.provider.name}/#{settings.provider.region}"
     @kernel.exit(0)
+  end
+
+  # Continue the interactive session with the user
+  # specific to the provider/infrastructure they have
+  # chosen.
+  #
+  # The returned object is a class from cyoi/cli/providers/provier_cli_NAME.rb
+  # The class loads itself into `@provider_clis` via `register_provider_cli`
+  def provider_cli
+    @provider_cli ||= begin
+      require "cyoi/cli/providers/provider_cli_#{settings.provider.name}"
+      klass = self.class.provider_cli(settings.provider.name)
+      klass.new(settings.provider)
+    end
+  end
+
+  def self.register_provider_cli(name, klass)
+    @provider_clis ||= {}
+    @provider_clis[name] = klass
+  end
+
+  def self.provider_cli(name)
+    @provider_clis[name]
   end
 
   protected
@@ -28,7 +52,7 @@ class Cyoi::Cli::Provider
   end
 
   # Prompts user to pick from the supported regions
-  def choose_provider
+  def choose_provider_if_necessary
     hl.choose do |menu|
       menu.prompt = "Choose infrastructure:  "
       menu.choice("AWS") do

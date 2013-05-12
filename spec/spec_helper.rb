@@ -18,7 +18,7 @@ require "aruba/api"
 # the following error:
 # EOFError:
 #   The input stream is exhausted.
-# 
+#
 # require 'aruba/in_process'
 # Aruba::InProcess.main_class = Cyoi::Cli::Provider
 # Aruba.process = Aruba::InProcess
