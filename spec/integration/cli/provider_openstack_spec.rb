@@ -4,6 +4,17 @@ describe "cyoi openstack" do
   include Aruba::Api
   before { @settings_dir = File.expand_path("~/.cyoi_client_lib") }
 
+  it "provider choices already made" do
+    setting "provider.name", "openstack"
+    setting "provider.credentials.openstack_username", "USERNAME"
+    setting "provider.credentials.openstack_api_key", "PASSWORD"
+    setting "provider.credentials.openstack_tenant", "TENANT"
+    setting "provider.credentials.openstack_auth_url", "TOKENURL"
+    setting "provider.region", "us-west"
+    run_interactive(unescape("cyoi #{settings_dir}"))
+    assert_passing_with("Confirming: Using OpenStack/us-west")
+  end
+
   it "prompts for everything (no region)" do
     run_interactive(unescape("cyoi #{settings_dir}"))
     type("2")
