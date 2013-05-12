@@ -27,7 +27,7 @@ Access key: Secret key:
 7. Asia Pacific (Tokyo) Region (ap-northeast-1)
 8. South America (Sao Paulo) Region (sa-east-1)
 Choose AWS region: 
-Confirming: Using aws/us-west-2
+Confirming: Using AWS/us-west-2
     OUT
   end
 end

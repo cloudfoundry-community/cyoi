@@ -15,8 +15,7 @@ class Cyoi::Cli::Provider
       settings["provider"] = provider_cli.perform_and_return_attributes
       save_settings!
     end
-    @stdout.puts "Confirming: Using #{settings.provider.name}/#{settings.provider.region}"
-    @kernel.exit(0)
+    provider_cli.display_confirmation
   end
 
   # Continue the interactive session with the user
@@ -25,8 +24,11 @@ class Cyoi::Cli::Provider
   #
   # The returned object is a class from cyoi/cli/providers/provier_cli_NAME.rb
   # The class loads itself into `@provider_clis` via `register_provider_cli`
+  #
+  # Returns nil if settings.provider.name not set
   def provider_cli
     @provider_cli ||= begin
+      return nil unless name = settings.exists?("provider.name")
       require "cyoi/cli/providers/provider_cli_#{settings.provider.name}"
       klass = self.class.provider_cli(settings.provider.name)
       klass.new(settings.provider, hl)
@@ -44,10 +46,7 @@ class Cyoi::Cli::Provider
 
   protected
   def valid_infrastructure?
-    settings.exists?("provider.name") &&
-    settings.exists?("provider.region") &&
-    settings.exists?("provider.credentials") &&
-    settings.provider
+    provider_cli && provider_cli.valid_infrastructure?
   end
 
   # Prompts user to pick from the supported regions

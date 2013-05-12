@@ -14,4 +14,12 @@ class Cyoi::Cli::Providers::ProviderCli
   def export_attributes
     attributes.to_nested_hash
   end
+
+  def valid_infrastructure?
+    raise "please implement in subclass"
+  end
+
+  def display_confirmation
+    raise "please implement in subclass"
+  end
 end

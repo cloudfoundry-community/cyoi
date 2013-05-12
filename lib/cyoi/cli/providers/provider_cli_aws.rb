@@ -32,7 +32,17 @@ class Cyoi::Cli::Providers::ProviderCliAws < Cyoi::Cli::Providers::ProviderCli
       end
       menu.default = default_menu_item if default_menu_item
     end
+  end
+
+  def valid_infrastructure?
+    attributes.exists?("credentials.aws_access_key_id") &&
+    attributes.exists?("credentials.aws_secret_access_key") &&
+    attributes.exists?("region")
+  end
+
+  def display_confirmation
     puts "\n"
+    puts "Confirming: Using AWS/#{attributes.region}"
   end
 
   protected

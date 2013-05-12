@@ -10,6 +10,6 @@ describe "cyoi" do
     setting "provider.credentials.aws_secret_access_key", "aws_secret_access_key"
     setting "provider.region", "us-west-2"
     run_interactive(unescape("cyoi #{settings_dir}"))
-    assert_passing_with("Confirming: Using aws/us-west-2")
+    assert_passing_with("Confirming: Using AWS/us-west-2")
   end
 end
