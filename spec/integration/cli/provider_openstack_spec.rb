@@ -11,6 +11,7 @@ describe "cyoi openstack" do
     type("PASSWORD")
     type("TENANT")
     type("TOKENURL")
+    type("")
     type("2")
     type("")
     assert_passing_with(<<-OUT)
@@ -19,7 +20,8 @@ describe "cyoi openstack" do
 Choose your infrastructure: 
 Using provider OpenStack
 
-Username: Password: Tenant: Authorization Token URL: Confirming: Using openstack/
+Username: Password: Tenant: Authorization Token URL: 
+OpenStack Region (optional): Confirming: Using openstack/
     OUT
   end
 end

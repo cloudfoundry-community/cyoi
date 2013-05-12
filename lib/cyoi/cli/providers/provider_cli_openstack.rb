@@ -3,7 +3,7 @@ class Cyoi::Cli::Providers::ProviderCliOpenStack < Cyoi::Cli::Providers::Provide
   def perform_and_return_attributes
     puts "\nUsing provider OpenStack\n"
     setup_credentials
-    attributes["region"] = nil
+    choose_region
     export_attributes
   end
 
@@ -16,6 +16,10 @@ class Cyoi::Cli::Providers::ProviderCliOpenStack < Cyoi::Cli::Providers::Provide
     attributes.credentials["openstack_auth_url"] = hl.ask("Authorization Token URL: ")
   end
 
+  def choose_region
+    puts "\n"
+    attributes["region"] = hl.ask("OpenStack Region (optional): ")
+  end
 end
 
 Cyoi::Cli::Provider.register_provider_cli("openstack", Cyoi::Cli::Providers::ProviderCliOpenStack)
