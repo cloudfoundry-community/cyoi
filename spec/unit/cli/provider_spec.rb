@@ -15,15 +15,18 @@ describe Cyoi::Cli::Provider do
 
   it "prompts for provider, user chooses aws" do
     run_interactive(unescape("cyoi #{settings_dir}"))
-    type("1\n")
-    type("2\n")
+    type("1")
+    type("ACCESS")
+    type("SECRET")
+    type("2")
     type("")
     assert_passing_with(<<-OUT)
 1. AWS
 2. OpenStack
 Choose your infrastructure: 
-Using provider AWS:
+Using provider AWS
 
+Access key: Secret key: 
 1. *US East (Northern Virginia) Region (us-east-1)
 2. US West (Oregon) Region (us-west-2)
 3. US West (Northern California) Region (us-west-1)

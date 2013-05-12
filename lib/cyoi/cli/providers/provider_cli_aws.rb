@@ -1,13 +1,21 @@
 require "cyoi/cli/providers/provider_cli"
 class Cyoi::Cli::Providers::ProviderCliAws < Cyoi::Cli::Providers::ProviderCli
   def perform_and_return_attributes
-    puts "\nUsing provider AWS:\n\n"
-    choose_region_if_necessary
-    collect_credentials
+    puts "\nUsing provider AWS\n"
+    setup_credentials
+    choose_region
     export_attributes
   end
 
-  def choose_region_if_necessary
+  def setup_credentials
+    puts "\n"
+    attributes.set_default("credentials", {})
+    attributes.credentials["aws_access_key_id"] = hl.ask("Access key: ")
+    attributes.credentials["aws_secret_access_key"] = hl.ask("Secret key: ")
+  end
+
+  def choose_region
+    puts "\n"
     hl.choose do |menu|
       menu.prompt = "Choose AWS region: "
       default_menu_item = nil
@@ -25,10 +33,6 @@ class Cyoi::Cli::Providers::ProviderCliAws < Cyoi::Cli::Providers::ProviderCli
       menu.default = default_menu_item if default_menu_item
     end
     puts "\n"
-  end
-
-  def collect_credentials
-    attributes["credentials"] = {}
   end
 
   protected
