@@ -11,9 +11,7 @@ class Cyoi::Cli::Provider
   def execute!
     unless valid_infrastructure?
       choose_provider_if_necessary
-      provider_cli.choose_region_if_necessary
-      provider_cli.collect_credentials
-      settings["provider"] = provider_cli.export_attributes
+      settings["provider"] = provider_cli.perform_and_return_attributes
       save_settings!
     end
     @stdout.puts "Confirming: Using #{settings.provider.name}/#{settings.provider.region}"
@@ -30,7 +28,7 @@ class Cyoi::Cli::Provider
     @provider_cli ||= begin
       require "cyoi/cli/providers/provider_cli_#{settings.provider.name}"
       klass = self.class.provider_cli(settings.provider.name)
-      klass.new(settings.provider)
+      klass.new(settings.provider, hl)
     end
   end
 
@@ -54,7 +52,7 @@ class Cyoi::Cli::Provider
   # Prompts user to pick from the supported regions
   def choose_provider_if_necessary
     hl.choose do |menu|
-      menu.prompt = "Choose infrastructure:  "
+      menu.prompt = "Choose your infrastructure: "
       menu.choice("AWS") do
         settings.provider["name"] = "aws"
       end

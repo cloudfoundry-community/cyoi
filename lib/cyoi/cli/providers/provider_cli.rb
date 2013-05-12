@@ -2,8 +2,10 @@ module Cyoi; module Cli; module Providers; end; end; end
 
 class Cyoi::Cli::Providers::ProviderCli
   attr_reader :attributes
+  attr_reader :hl
 
-  def initialize(attributes)
+  def initialize(attributes, highline)
+    @hl = highline
     @attributes = attributes.is_a?(Hash) ? Settingslogic.new(attributes) : attributes
     raise "@attributes must be Settingslogic (or Hash)" unless @attributes.is_a?(Settingslogic)
   end
