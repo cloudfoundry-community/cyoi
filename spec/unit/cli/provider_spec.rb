@@ -3,6 +3,7 @@ describe Cyoi::Cli::Provider do
   include SettingsHelper
   include Aruba::Api
   before { @settings_dir = File.expand_path("~/.cyoi_client_lib") }
+
   it "provider choices already made" do
     setting "provider.name", "aws"
     setting "provider.credentials.aws_access_key_id", "aws_access_key_id"
@@ -14,6 +15,13 @@ describe Cyoi::Cli::Provider do
 
   it "prompts for provider, user chooses aws" do
     run_interactive(unescape("cyoi #{settings_dir}"))
+    assert_partial_output_interactive(<<-OUT)
+1. AWS
+2. OpenStack
+Choose your infrastructure: 
+    OUT
+    type("1")
+    type("")
     assert_passing_with("Confirming: Using aws/us-west-2")
   end
 end
