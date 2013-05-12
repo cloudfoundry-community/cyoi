@@ -1,4 +1,4 @@
-describe Cyoi::Cli::Provider do
+describe "cyoi" do
   include Cyoi::Cli::Helpers::Settings
   include SettingsHelper
   include Aruba::Api
@@ -11,32 +11,5 @@ describe Cyoi::Cli::Provider do
     setting "provider.region", "us-west-2"
     run_interactive(unescape("cyoi #{settings_dir}"))
     assert_passing_with("Confirming: Using aws/us-west-2")
-  end
-
-  it "prompts for provider, user chooses aws" do
-    run_interactive(unescape("cyoi #{settings_dir}"))
-    type("1")
-    type("ACCESS")
-    type("SECRET")
-    type("2")
-    type("")
-    assert_passing_with(<<-OUT)
-1. AWS
-2. OpenStack
-Choose your infrastructure: 
-Using provider AWS
-
-Access key: Secret key: 
-1. *US East (Northern Virginia) Region (us-east-1)
-2. US West (Oregon) Region (us-west-2)
-3. US West (Northern California) Region (us-west-1)
-4. EU (Ireland) Region (eu-west-1)
-5. Asia Pacific (Singapore) Region (ap-southeast-1)
-6. Asia Pacific (Sydney) Region (ap-southeast-2)
-7. Asia Pacific (Tokyo) Region (ap-northeast-1)
-8. South America (Sao Paulo) Region (sa-east-1)
-Choose AWS region: 
-Confirming: Using aws/us-west-2
-    OUT
   end
 end
