@@ -10,8 +10,10 @@ class Cyoi::Cli::Providers::ProviderCliOpenStack < Cyoi::Cli::Providers::Provide
   def setup_credentials
     puts "\n"
     attributes.set_default("credentials", {})
-    attributes.credentials["aws_access_key_id"] = hl.ask("Access key: ")
-    attributes.credentials["aws_secret_access_key"] = hl.ask("Secret key: ")
+    attributes.credentials["openstack_username"] = hl.ask("Username: ")
+    attributes.credentials["openstack_api_key"] = hl.ask("Password: ")
+    attributes.credentials["openstack_tenant"] = hl.ask("Tenant: ")
+    attributes.credentials["openstack_auth_url"] = hl.ask("Authorization Token URL: ")
   end
 
 end

@@ -7,8 +7,10 @@ describe "cyoi openstack" do
   it "prompts for everything" do
     run_interactive(unescape("cyoi #{settings_dir}"))
     type("2")
-    type("ACCESS")
-    type("SECRET")
+    type("USERNAME")
+    type("PASSWORD")
+    type("TENANT")
+    type("TOKENURL")
     type("2")
     type("")
     assert_passing_with(<<-OUT)
@@ -17,7 +19,7 @@ describe "cyoi openstack" do
 Choose your infrastructure: 
 Using provider OpenStack
 
-Access key: Secret key: Confirming: Using openstack/
+Username: Password: Tenant: Authorization Token URL: Confirming: Using openstack/
     OUT
   end
 end
