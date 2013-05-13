@@ -49,8 +49,11 @@ Confirming: Using aws/us-west-2
 Add this line to your application's Gemfile:
 
 ```
-gem 'cyoi'
+gem "cyoi"
+gem "settingslogic", github: "drnic/settingslogic", branch: "integration"
 ```
+
+NOTE: The `settingslogic` fork is necessary for some unmerged/unreleased extensions.
 
 And then execute:
 
