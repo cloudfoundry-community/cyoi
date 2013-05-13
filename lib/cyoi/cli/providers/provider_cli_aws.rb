@@ -10,8 +10,9 @@ class Cyoi::Cli::Providers::ProviderCliAws < Cyoi::Cli::Providers::ProviderCli
   def setup_credentials
     puts "\n"
     attributes.set_default("credentials", {})
-    attributes.credentials["aws_access_key_id"] = hl.ask("Access key: ")
-    attributes.credentials["aws_secret_access_key"] = hl.ask("Secret key: ")
+    credentials = attributes.credentials
+    credentials["aws_access_key_id"] = hl.ask("Access key: ") unless credentials.exists?("aws_access_key_id")
+    credentials["aws_secret_access_key"] = hl.ask("Secret key: ") unless credentials.exists?("aws_secret_access_key")
   end
 
   def choose_region

@@ -39,4 +39,35 @@ Choose AWS region:
 Confirming: Using AWS/us-west-2
     OUT
   end
+
+  it "auto-detects aws options in ~/.fog" do
+    setup_home_dir
+    setup_fog_with_various_accounts_setup
+    run_interactive(unescape("cyoi #{settings_dir}"))
+    type("3")
+    type("6")
+    type("")
+    assert_passing_with(<<-OUT)
+Auto-detected infrastructure API credentials at ~/.fog (override with $FOG)
+1. AWS (default)
+2. OpenStack (default)
+3. AWS (starkandwayne)
+4. OpenStack (personal)
+5. Alternate credentials
+Choose an auto-detected infrastructure:  
+Using provider AWS
+
+
+1. *US East (Northern Virginia) Region (us-east-1)
+2. US West (Oregon) Region (us-west-2)
+3. US West (Northern California) Region (us-west-1)
+4. EU (Ireland) Region (eu-west-1)
+5. Asia Pacific (Singapore) Region (ap-southeast-1)
+6. Asia Pacific (Sydney) Region (ap-southeast-2)
+7. Asia Pacific (Tokyo) Region (ap-northeast-1)
+8. South America (Sao Paulo) Region (sa-east-1)
+Choose AWS region: 
+Confirming: Using AWS/ap-southeast-2
+    OUT
+  end
 end
