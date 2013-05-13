@@ -12,9 +12,10 @@ class Cyoi::Cli::Provider
 
   def execute!
     unless valid_infrastructure?
+      settings["provider"] ||= {}
       auto_detection unless settings.exists?("provider.name")
       choose_provider unless settings.exists?("provider.name")
-      settings["provider"] = provider_cli.perform_and_return_attributes
+      settings.provider.merge(provider_cli.perform_and_return_attributes)
       save_settings!
     end
     provider_cli.display_confirmation
@@ -53,21 +54,18 @@ class Cyoi::Cli::Provider
 
   def auto_detection
     ui = Cyoi::Cli::AutoDetection::UI.new(settings.provider, hl)
-    ui.perform
-    settings["provider"] = ui.export_attributes
-    save_settings!
+    if ui.perform
+      settings["provider"] = ui.export_attributes
+      save_settings!
+    end
   end
 
   # Prompts user to pick from the supported regions
   def choose_provider
-    hl.choose do |menu|
+    settings.provider["name"] = hl.choose do |menu|
       menu.prompt = "Choose your infrastructure: "
-      menu.choice("AWS") do
-        settings.provider["name"] = "aws"
-      end
-      menu.choice("OpenStack") do
-        settings.provider["name"] = "openstack"
-      end
+      menu.choice("AWS") { "aws" }
+      menu.choice("OpenStack") { "openstack" }
     end
     save_settings!
   end

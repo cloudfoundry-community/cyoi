@@ -24,7 +24,7 @@ class Cyoi::Cli::AutoDetection::UI
             attributes.set("credentials", credentials)
           end
         end
-        menu.choice("Alternate credentials")
+        menu.choice("Alternate credentials") { false }
       end
     end
   end
