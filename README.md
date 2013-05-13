@@ -41,7 +41,14 @@ Confirming: Using aws/us-west-2
 
 ## Usage
 
-```
+``` ruby
+provider_cli = Cyoi::Cli::Provider.new([settings_dir])
+provider_cli.execute!
+settings = YAML.load_file(settings_dir)
+
+settings["provider"]["name"] # aws, openstack
+settings["provider"]["region"] # us-east-1
+settings["provider"]["credentials"] # aws or openstack URLs & credentials
 ```
 
 ## Installation
