@@ -69,5 +69,7 @@ Using provider AWS
 Choose AWS region: 
 Confirming: Using AWS/ap-southeast-2
     OUT
+
+    settings.provider.region.should == "ap-southeast-2"
   end
 end

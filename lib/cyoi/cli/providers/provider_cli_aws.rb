@@ -1,9 +1,11 @@
 require "cyoi/cli/providers/provider_cli"
 class Cyoi::Cli::Providers::ProviderCliAws < Cyoi::Cli::Providers::ProviderCli
   def perform_and_return_attributes
-    puts "\nUsing provider AWS\n"
-    setup_credentials
-    choose_region
+    unless valid_infrastructure?
+      puts "\nUsing provider AWS\n"
+      setup_credentials
+      choose_region
+    end
     export_attributes
   end
 

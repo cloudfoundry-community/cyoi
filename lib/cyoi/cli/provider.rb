@@ -15,7 +15,7 @@ class Cyoi::Cli::Provider
       settings["provider"] ||= {}
       auto_detection unless settings.exists?("provider.name")
       choose_provider unless settings.exists?("provider.name")
-      settings.provider.merge(provider_cli.perform_and_return_attributes)
+      settings["provider"] = provider_cli.perform_and_return_attributes
       save_settings!
     end
     provider_cli.display_confirmation
