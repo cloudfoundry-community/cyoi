@@ -7,7 +7,7 @@ require "rubygems"
 # https://github.com/cucumber/aruba#testing-ruby-cli-programs-without-spawning-a-new-ruby-process
 
 section, *argv = ARGV.dup
-cli = case section.downcase.to_sym
+cli = case (section || "").downcase.to_sym
 when :provider
   require "cyoi/cli/provider"
   Cyoi::Cli::Provider.new(argv)
