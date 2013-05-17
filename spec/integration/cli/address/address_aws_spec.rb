@@ -4,6 +4,11 @@ describe "cyoi address aws" do
   include Aruba::Api
   before { @settings_dir = File.expand_path("~/.cyoi_client_lib") }
 
+  it "fails nicely if provider.name missing" do
+    run_interactive(unescape("cyoi address #{settings_dir}"))
+    assert_failing_with("Please run 'cyoi provider' first")
+  end
+
   it "provider choices already made" do
     setting "provider.name", "aws"
     setting "provider.credentials.aws_access_key_id", "aws_access_key_id"
