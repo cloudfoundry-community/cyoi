@@ -1,4 +1,4 @@
-# assumes @cmd is Inception::Cli instance
+# assumes @cmd is Cyoi::Cli instance
 module SettingsHelper
   # Set a nested setting with "key1.key2.key3" notation
   def setting(nested_key, value)

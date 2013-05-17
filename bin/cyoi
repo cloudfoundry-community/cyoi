@@ -19,5 +19,9 @@ else
   exit 1
 end
 
+# TODO put this behind a flag --fog-mock
+require "fog"
+Fog.mock!
+
 cli.show_settings
 cli.execute!

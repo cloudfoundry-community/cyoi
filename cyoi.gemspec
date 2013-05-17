@@ -22,6 +22,7 @@ README
   spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
   spec.require_paths = ["lib"]
 
+  spec.add_dependency "fog"
   spec.add_dependency "highline", "~> 1.6"
   spec.add_dependency "settingslogic", "~> 2.0.9" # need to_nested_hash method
 

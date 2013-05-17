@@ -38,7 +38,7 @@ class Cyoi::Cli::Address
       require "cyoi/cli/provider_addresses/address_cli_#{settings.provider.name}"
       klass = self.class.address_cli(settings.provider.name)
       settings["address"] ||= {}
-      klass.new(settings.address, hl)
+      klass.new(provider_client, settings.address, hl)
     end
   end
 
