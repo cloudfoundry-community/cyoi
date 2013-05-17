@@ -10,7 +10,12 @@ class Cyoi::Cli::Address
     @settings_dir = File.expand_path(@settings_dir)
   end
 
+  # TODO run Cyoi::Cli::Provider first if settings.provider.name missing
   def execute!
+    unless settings.exists?("provider.name")
+      $stderr.puts("Please run 'cyoi provider' first")
+      exit 1
+    end
     unless valid_address?
       settings["address"] = address_cli.perform_and_return_attributes
       save_settings!
