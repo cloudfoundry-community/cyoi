@@ -1,4 +1,4 @@
-describe "cyoi openstack" do
+describe "cyoi provider openstack" do
   include Cyoi::Cli::Helpers::Settings
   include SettingsHelper
   include Aruba::Api
@@ -11,12 +11,12 @@ describe "cyoi openstack" do
     setting "provider.credentials.openstack_tenant", "TENANT"
     setting "provider.credentials.openstack_auth_url", "TOKENURL"
     setting "provider.region", "us-west"
-    run_interactive(unescape("cyoi #{settings_dir}"))
+    run_interactive(unescape("cyoi provider #{settings_dir}"))
     assert_passing_with("Confirming: Using OpenStack/us-west")
   end
 
   it "prompts for everything (no region)" do
-    run_interactive(unescape("cyoi #{settings_dir}"))
+    run_interactive(unescape("cyoi provider #{settings_dir}"))
     type("2")
     type("USERNAME")
     type("PASSWORD")
@@ -37,7 +37,7 @@ Confirming: Using OpenStack
   end
 
   it "prompts for everything (with region)" do
-    run_interactive(unescape("cyoi #{settings_dir}"))
+    run_interactive(unescape("cyoi provider #{settings_dir}"))
     type("2")
     type("USERNAME")
     type("PASSWORD")
@@ -60,7 +60,7 @@ Confirming: Using OpenStack/REGION
   it "auto-detects several openstack options in ~/.fog" do
     setup_home_dir
     setup_fog_with_various_accounts_setup
-    run_interactive(unescape("cyoi #{settings_dir}"))
+    run_interactive(unescape("cyoi provider #{settings_dir}"))
     type("4")
     type("REGION")
     type("")

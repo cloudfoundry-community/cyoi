@@ -2,8 +2,22 @@
 $:.push File.dirname(__FILE__) + '/../lib'
 
 require "rubygems"
-require "cyoi/cli/provider"
 
 # interface assumed by aruba in-process testing
 # https://github.com/cucumber/aruba#testing-ruby-cli-programs-without-spawning-a-new-ruby-process
-Cyoi::Cli::Provider.new(ARGV.dup).execute!
+
+section, *argv = ARGV.dup
+cli = case section.downcase.to_sym
+when :provider
+  require "cyoi/cli/provider"
+  Cyoi::Cli::Provider.new(argv)
+when :address
+  require "cyoi/cli/address"
+  Cyoi::Cli::Address.new(argv)
+else
+  $stderr.puts "USAGE: cyoi [provider|address]"
+  exit 1
+end
+
+cli.show_settings
+cli.execute!

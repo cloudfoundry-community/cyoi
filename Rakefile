@@ -17,10 +17,16 @@ if defined?(RSpec)
       t.pattern = "spec/unit/**/*_spec.rb"
       t.rspec_opts = %w(--format progress --color)
     end
+
+    desc "Run AWS Integration Tests"
+    RSpec::Core::RakeTask.new(:integration) do |t|
+      t.pattern = "spec/integration/**/*_spec.rb"
+      t.rspec_opts = %w(--format progress --color)
+    end
   end
 
   desc "Run tests"
-  task :spec => %w(spec:unit)
+  task :spec => %w(spec:unit spec:integration)
 end
 
 task :default => ["spec"]

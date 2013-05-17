@@ -11,6 +11,7 @@ $:.unshift(File.expand_path("../../lib", __FILE__))
 require "rspec/core"
 require "cyoi"
 require "cyoi/cli/provider"
+require "cyoi/cli/address"
 
 require "aruba/api"
 

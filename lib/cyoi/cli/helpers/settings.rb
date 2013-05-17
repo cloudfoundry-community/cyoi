@@ -40,6 +40,10 @@ module Cyoi::Cli::Helpers::Settings
     settings.create_accessors!
   end
 
+  def show_settings
+    puts "Using settings file #{settings_path}"
+  end
+
   def migrate_old_settings
   end
 end

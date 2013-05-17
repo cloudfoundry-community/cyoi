@@ -1,4 +1,4 @@
-describe "cyoi aws" do
+describe "cyoi provider aws" do
   include Cyoi::Cli::Helpers::Settings
   include SettingsHelper
   include Aruba::Api
@@ -9,12 +9,12 @@ describe "cyoi aws" do
     setting "provider.credentials.aws_access_key_id", "aws_access_key_id"
     setting "provider.credentials.aws_secret_access_key", "aws_secret_access_key"
     setting "provider.region", "us-west-2"
-    run_interactive(unescape("cyoi #{settings_dir}"))
+    run_interactive(unescape("cyoi provider #{settings_dir}"))
     assert_passing_with("Confirming: Using AWS/us-west-2")
   end
 
   it "prompts for provider, user chooses aws" do
-    run_interactive(unescape("cyoi #{settings_dir}"))
+    run_interactive(unescape("cyoi provider #{settings_dir}"))
     type("1")
     type("ACCESS")
     type("SECRET")
@@ -43,7 +43,7 @@ Confirming: Using AWS/us-west-2
   it "auto-detects aws options in ~/.fog" do
     setup_home_dir
     setup_fog_with_various_accounts_setup
-    run_interactive(unescape("cyoi #{settings_dir}"))
+    run_interactive(unescape("cyoi provider #{settings_dir}"))
     type("3")
     type("6")
     type("")
