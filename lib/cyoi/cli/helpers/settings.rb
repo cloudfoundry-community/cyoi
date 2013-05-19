@@ -44,6 +44,11 @@ module Cyoi::Cli::Helpers::Settings
     puts "Using settings file #{settings_path}"
   end
 
+  def reload_settings!
+    @settings = nil
+    settings
+  end
+
   def migrate_old_settings
   end
 end
