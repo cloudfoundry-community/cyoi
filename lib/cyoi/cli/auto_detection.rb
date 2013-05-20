@@ -8,8 +8,8 @@ class Cyoi::Cli::AutoDetection::UI
 
   def initialize(attributes, highline)
     @hl = highline
-    @attributes = attributes.is_a?(Hash) ? Settingslogic.new(attributes) : attributes
-    raise "@attributes must be Settingslogic (or Hash)" unless @attributes.is_a?(Settingslogic)
+    @attributes = attributes.is_a?(Hash) ? ReadWriteSettings.new(attributes) : attributes
+    raise "@attributes must be ReadWriteSettings (or Hash)" unless @attributes.is_a?(ReadWriteSettings)
   end
 
   def perform

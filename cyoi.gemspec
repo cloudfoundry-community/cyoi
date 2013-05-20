@@ -24,7 +24,7 @@ README
 
   spec.add_dependency "fog"
   spec.add_dependency "highline", "~> 1.6"
-  spec.add_dependency "settingslogic", "~> 2.0.9" # need to_nested_hash method
+  spec.add_dependency "readwritesettings", "~> 3.0"
 
   spec.add_development_dependency "bundler", "~> 1.3"
   spec.add_development_dependency "rake"

@@ -53,19 +53,16 @@ settings["provider"]["credentials"] # aws or openstack URLs & credentials
 
 ## Installation
 
-Add this line to your application's Gemfile:
+To use as a stand-alone CLI, install the rubygem:
+
+```
+$ gem install cyoi
+```
+
+To use it as a library within your own application, add this line to your application's Gemfile:
 
 ```
 gem "cyoi"
-gem "settingslogic", github: "drnic/settingslogic", branch: "integration"
-```
-
-NOTE: The `settingslogic` fork is necessary for some unmerged/unreleased extensions.
-
-And then execute:
-
-```
-$ bundle
 ```
 
 ## Contributing

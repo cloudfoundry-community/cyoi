@@ -7,8 +7,8 @@ class Cyoi::Cli::KeyPair::KeyPairCliAws
   def initialize(provider_client, attributes, highline)
     @provider_client = provider_client
     @hl = highline
-    @attributes = attributes.is_a?(Hash) ? Settingslogic.new(attributes) : attributes
-    raise "@attributes must be Settingslogic (or Hash)" unless @attributes.is_a?(Settingslogic)
+    @attributes = attributes.is_a?(Hash) ? ReadWriteSettings.new(attributes) : attributes
+    raise "@attributes must be ReadWriteSettings (or Hash)" unless @attributes.is_a?(ReadWriteSettings)
     raise "@attributes.name must be set" unless @attributes["name"]
   end
 

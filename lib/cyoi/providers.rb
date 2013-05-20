@@ -9,7 +9,7 @@ module Cyoi::Providers
   # with helpers related to that provider
   # returns nil if +attributes.name+ is unknown
   def provider_client(attributes)
-    attributes = attributes.is_a?(Hash) ? Settingslogic.new(attributes) : attributes
+    attributes = attributes.is_a?(Hash) ? ReadWriteSettings.new(attributes) : attributes
     case attributes.name.to_sym
     when :aws
       @aws_provider_client ||= begin
