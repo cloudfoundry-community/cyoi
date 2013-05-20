@@ -21,6 +21,14 @@ class Cyoi::Providers::Clients::FogProviderClient
     fog_compute.key_pairs.create(:name => key_pair_name)
   end
 
+  def valid_key_pair_fingerprint?(key_pair_name, fingerprint)
+    if fog_key_pair = fog_compute.key_pairs.get(key_pair_name)
+      fog_key_pair.fingerprint == fingerprint
+    else
+      false
+    end
+  end
+
   # set_resource_name(fog_server, "inception")
   # set_resource_name(volume, "inception-root")
   # set_resource_name(volume, "inception-store")

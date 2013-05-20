@@ -26,7 +26,8 @@ class Cyoi::Cli::KeyPair::KeyPairCliAws
   end
 
   def valid?
-    attributes["fingerprint"] && attributes["private_key"]
+    attributes["name"] && attributes["fingerprint"] && attributes["private_key"] &&
+      provider_client.valid_key_pair_fingerprint?(key_pair_name, attributes.fingerprint)
   end
 
   def display_confirmation
