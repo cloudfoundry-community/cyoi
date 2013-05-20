@@ -13,7 +13,10 @@ class Cyoi::Cli::KeyPair::KeyPairCliAws
   end
 
   def perform_and_return_attributes
-    provision_address unless valid?
+    unless valid?
+      destroy_existing_key_pair
+      provision_key_pair
+    end
     export_attributes
   end
 
@@ -36,8 +39,12 @@ class Cyoi::Cli::KeyPair::KeyPairCliAws
   end
 
   protected
+  def destroy_existing_key_pair
+    provider_client.delete_key_pair_if_exists(key_pair_name)
+  end
+
   # provisions key pair from AWS and returns fog object KeyPair
-  def provision_address
+  def provision_key_pair
     print "Acquiring a key pair #{key_pair_name}... "
     if key_pair = provider_client.create_key_pair(key_pair_name)
       attributes["fingerprint"] = key_pair.fingerprint

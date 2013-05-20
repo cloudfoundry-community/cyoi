@@ -23,8 +23,8 @@ class Cyoi::Cli::KeyPair
     end
     unless valid?
       settings["key_pair"] = key_pair_cli.perform_and_return_attributes
-      save_settings!
     end
+    save_settings!
     key_pair_cli.display_confirmation
   end
 
