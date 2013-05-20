@@ -27,8 +27,7 @@ describe "cyoi key_pair aws" do
   end
 
   it "create new key pair (already exists on AWS)" do
-    # old_key = fog_compute.key_pairs.create(name: "test-bosh")
-    old_key = subject.key_pair_cli.provider_client.create_key_pair("test-bosh")
+    old_key = fog_compute.key_pairs.create(name: "test-bosh")
     subject.execute!
     reload_settings!
     settings.key_pair.name.should == "test-bosh"
