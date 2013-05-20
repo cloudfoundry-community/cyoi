@@ -25,18 +25,6 @@ Provisioning new key pair microbosh-test-bosh... done
 Confirm: Using key pair microbosh-test-bosh
       OUT
     end
-
-    xit "create new key pair (already exists on AWS)" do
-    end
-
-    xit "existing key pair (matches fingerprint on AWS)" do
-    end
-
-    xit "existing key pair (fingerprint mismatch)" do
-    end
-
-    xit "existing key pair (doesn't exist on AWS)" do
-    end
   end
 
 end
