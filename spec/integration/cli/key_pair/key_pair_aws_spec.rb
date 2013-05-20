@@ -5,7 +5,7 @@ describe "cyoi key_pair aws" do
   before { @settings_dir = File.expand_path("~/.cyoi_client_lib") }
 
   it "fails nicely if provider.name missing" do
-    run_interactive(unescape("cyoi key_pair #{settings_dir}"))
+    run_interactive(unescape("cyoi key_pair testname #{settings_dir}"))
     assert_failing_with("Please run 'cyoi provider' first")
   end
 
@@ -19,10 +19,11 @@ describe "cyoi key_pair aws" do
     end
 
     it "create new key pair (didn't already exist in AWS)" do
+      run_interactive(unescape("cyoi key_pair testname #{settings_dir}"))
       assert_passing_with(<<-OUT)
-Provisioning new key pair microbosh-test-bosh... done
+Acquiring a key pair testname... done
 
-Confirm: Using key pair microbosh-test-bosh
+Confirming: Using key pair testname
       OUT
     end
   end
