@@ -13,10 +13,10 @@ class Cyoi::Cli::Providers::ProviderCliOpenStack < Cyoi::Cli::Providers::Provide
     puts "\n"
     attributes.set_default("credentials", {})
     credentials = attributes.credentials
-    credentials["openstack_username"] = hl.ask("Username: ") unless credentials.exists?("openstack_username")
-    credentials["openstack_api_key"] = hl.ask("Password: ") unless credentials.exists?("openstack_api_key")
-    credentials["openstack_tenant"] = hl.ask("Tenant: ") unless credentials.exists?("openstack_tenant")
-    credentials["openstack_auth_url"] = hl.ask("Authorization Token URL: ") unless credentials.exists?("openstack_auth_url")
+    credentials["openstack_username"] = hl.ask("Username: ").to_s unless credentials.exists?("openstack_username")
+    credentials["openstack_api_key"] = hl.ask("Password: ").to_s unless credentials.exists?("openstack_api_key")
+    credentials["openstack_tenant"] = hl.ask("Tenant: ").to_s unless credentials.exists?("openstack_tenant")
+    credentials["openstack_auth_url"] = hl.ask("Authorization Token URL: ").to_s unless credentials.exists?("openstack_auth_url")
   end
 
   def choose_region

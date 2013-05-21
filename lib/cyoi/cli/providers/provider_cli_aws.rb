@@ -13,8 +13,8 @@ class Cyoi::Cli::Providers::ProviderCliAws < Cyoi::Cli::Providers::ProviderCli
     puts "\n"
     attributes.set_default("credentials", {})
     credentials = attributes.credentials
-    credentials["aws_access_key_id"] = hl.ask("Access key: ") unless credentials.exists?("aws_access_key_id")
-    credentials["aws_secret_access_key"] = hl.ask("Secret key: ") unless credentials.exists?("aws_secret_access_key")
+    credentials["aws_access_key_id"] = hl.ask("Access key: ").to_s unless credentials.exists?("aws_access_key_id")
+    credentials["aws_secret_access_key"] = hl.ask("Secret key: ").to_s unless credentials.exists?("aws_secret_access_key")
   end
 
   def choose_region
@@ -30,7 +30,7 @@ class Cyoi::Cli::Providers::ProviderCliAws < Cyoi::Cli::Providers::ProviderCli
           default_menu_item = menu_item 
         end
         menu.choice(menu_item) do
-          attributes["region"] = code
+          attributes["region"] = code.to_s
         end
       end
       menu.default = default_menu_item if default_menu_item
