@@ -5,7 +5,7 @@ Cyoi (choose-your-own-infrastructure) is a library to ask an end-user to choose 
 ## v0.4
 
 * switch to using readwritesettings instead of fork of settingslogic
-* clean all highline values before setting (v0.4.1)
+* clean all highline values before setting (v0.4.1 & v0.4.2)
 
 ## v0.3
 
