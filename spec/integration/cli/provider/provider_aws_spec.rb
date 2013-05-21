@@ -38,6 +38,15 @@ Access key: Secret key:
 Choose AWS region: 
 Confirming: Using AWS/us-west-2
     OUT
+
+    reload_settings!
+    settings.to_nested_hash.should == {
+      "provider" => {
+        "name" => "aws",
+        "credentials"=>{"aws_access_key_id"=>"ACCESS", "aws_secret_access_key"=>"SECRET"},
+        "region" => "us-west-2",
+      }
+    }
   end
 
   it "auto-detects aws options in ~/.fog" do
