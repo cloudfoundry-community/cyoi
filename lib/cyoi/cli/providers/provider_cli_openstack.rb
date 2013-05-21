@@ -21,7 +21,7 @@ class Cyoi::Cli::Providers::ProviderCliOpenStack < Cyoi::Cli::Providers::Provide
 
   def choose_region
     puts "\n"
-    attributes["region"] = hl.ask("OpenStack Region (optional): ")
+    attributes["region"] = hl.ask("OpenStack Region (optional): ").to_s
   end
 
   def valid_infrastructure?
