@@ -34,6 +34,18 @@ Username: Password: Tenant: Authorization Token URL:
 OpenStack Region (optional): 
 Confirming: Using OpenStack
     OUT
+
+    reload_settings!
+    settings.to_nested_hash.should == {
+      "provider" => {
+        "name" => "openstack",
+        "credentials"=>{
+          "openstack_username"=>"USERNAME", "openstack_api_key"=>"PASSWORD", 
+          "openstack_tenant"=>"TENANT", "openstack_auth_url"=>"TOKENURL"
+        },
+        "region" => "",
+      }
+    }
   end
 
   it "prompts for everything (with region)" do
