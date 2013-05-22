@@ -16,7 +16,7 @@ describe "cyoi address openstack" do
       setting "provider.credentials.openstack_api_key", "PASSWORD"
       setting "provider.credentials.openstack_tenant", "TENANT"
       setting "provider.credentials.openstack_auth_url", "TOKENURL"
-      setting "provider.region", "us-west"
+      setting "provider.credentials.openstack_region", "REGION"
     end
 
     it "address aleady assigned" do
@@ -26,7 +26,7 @@ describe "cyoi address openstack" do
       setting "provider.credentials.openstack_api_key", "PASSWORD"
       setting "provider.credentials.openstack_tenant", "TENANT"
       setting "provider.credentials.openstack_auth_url", "TOKENURL"
-      setting "provider.region", "us-west"
+      setting "provider.credentials.openstack_region", "REGION"
       setting "address.ip", "1.2.3.4"
       run_interactive(unescape("cyoi address #{settings_dir}"))
       assert_passing_with("Confirming: Using address 1.2.3.4")

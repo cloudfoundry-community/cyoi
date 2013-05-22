@@ -64,8 +64,8 @@ class Cyoi::Providers::Clients::OpenStackProviderClient < Cyoi::Providers::Clien
   def setup_fog_connection
     configuration = Fog.symbolize_credentials(attributes.credentials)
     configuration[:provider] = "OpenStack"
-    unless attributes.region == openstack_constants.no_region_code
-      configuration[:openstack_region] = attributes.region
+    if attributes.credentials.openstack_region && attributes.credentials.openstack_region.empty?
+      configuration.delete(:openstack_region)
     end
     @fog_compute = Fog::Compute.new(configuration)
   end
