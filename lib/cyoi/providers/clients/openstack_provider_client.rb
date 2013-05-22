@@ -9,7 +9,8 @@ class Cyoi::Providers::Clients::OpenStackProviderClient < Cyoi::Providers::Clien
   # @return [String] provisions a new public IP address in target region
   # TODO nil if none available
   def provision_public_ip_address(options={})
-    address = fog_compute.addresses.create
+    pool = fog_compute.addresses.get_address_pools.first
+    address = fog_compute.addresses.create(:pool => pool["name"])
     address.ip
     # TODO catch error and return nil
   end
@@ -22,6 +23,16 @@ class Cyoi::Providers::Clients::OpenStackProviderClient < Cyoi::Providers::Clien
   # Hook method for FogProviderClient#create_security_group
   def ip_permissions(sg)
     sg.rules
+  end
+
+  # Hook method for FogProviderClient#create_security_group
+  def port_open?(ip_permissions, port_range, protocol, ip_range)
+    ip_permissions && ip_permissions.find do |ip|
+      ip["ip_protocol"] == protocol \
+      && ip["ip_range"].select { |range| range["cidr"] == ip_range } \
+      && ip["from_port"] <= port_range.min \
+      && ip["to_port"] >= port_range.max
+    end
   end
 
   # Hook method for FogProviderClient#create_security_group
