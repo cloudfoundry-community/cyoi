@@ -18,7 +18,9 @@ class Cyoi::Providers::Clients::FogProviderClient
   end
 
   def create_key_pair(key_pair_name)
+    print "Creating key pair #{key_pair_name}... "
     fog_compute.key_pairs.create(:name => key_pair_name)
+    puts "done"
   end
 
   def valid_key_pair_fingerprint?(key_pair_name, fingerprint)
@@ -38,14 +40,17 @@ class Cyoi::Providers::Clients::FogProviderClient
 
   def delete_key_pair_if_exists(key_pair_name)
     if fog_key_pair = fog_compute.key_pairs.get(key_pair_name)
+      print "Destroying key pair #{key_pair_name}... "
       fog_key_pair.destroy
+      puts "done"
     end
   end
 
   def delete_servers_with_name(name)
     fog_compute.servers.select {|s| s.tags["Name"].downcase == name.downcase }.each do |server|
-      puts "Destroying server #{server.id}..."
+      print "Destroying server #{server.id}... "
       server.destroy
+      puts "done"
     end
   end
 
