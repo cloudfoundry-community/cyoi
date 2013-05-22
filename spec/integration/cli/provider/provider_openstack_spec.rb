@@ -10,9 +10,9 @@ describe "cyoi provider openstack" do
     setting "provider.credentials.openstack_api_key", "PASSWORD"
     setting "provider.credentials.openstack_tenant", "TENANT"
     setting "provider.credentials.openstack_auth_url", "TOKENURL"
-    setting "provider.region", "us-west"
+    setting "provider.credentials.openstack_region", "REGION"
     run_interactive(unescape("cyoi provider #{settings_dir}"))
-    assert_passing_with("Confirming: Using OpenStack/us-west")
+    assert_passing_with("Confirming: Using OpenStack")
   end
 
   it "prompts for everything (no region)" do
@@ -30,8 +30,7 @@ describe "cyoi provider openstack" do
 Choose your infrastructure: 
 Using provider OpenStack
 
-Username: Password: Tenant: Authorization Token URL: 
-OpenStack Region (optional): 
+Username: Password: Tenant: Authorization Token URL: OpenStack Region (optional): 
 Confirming: Using OpenStack
     OUT
 
@@ -41,9 +40,9 @@ Confirming: Using OpenStack
         "name" => "openstack",
         "credentials"=>{
           "openstack_username"=>"USERNAME", "openstack_api_key"=>"PASSWORD", 
-          "openstack_tenant"=>"TENANT", "openstack_auth_url"=>"TOKENURL"
+          "openstack_tenant"=>"TENANT", "openstack_auth_url"=>"TOKENURL/tokens",
+          "openstack_region"=>""
         },
-        "region" => "",
       }
     }
   end
@@ -63,9 +62,8 @@ Confirming: Using OpenStack
 Choose your infrastructure: 
 Using provider OpenStack
 
-Username: Password: Tenant: Authorization Token URL: 
-OpenStack Region (optional): 
-Confirming: Using OpenStack/REGION
+Username: Password: Tenant: Authorization Token URL: OpenStack Region (optional): 
+Confirming: Using OpenStack
     OUT
   end
 
@@ -86,9 +84,8 @@ Auto-detected infrastructure API credentials at ~/.fog (override with $FOG)
 Choose an auto-detected infrastructure:  
 Using provider OpenStack
 
-
 OpenStack Region (optional): 
-Confirming: Using OpenStack/REGION
+Confirming: Using OpenStack
     OUT
   end
 end
