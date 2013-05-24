@@ -5,6 +5,7 @@ Cyoi (choose-your-own-infrastructure) is a library to ask an end-user to choose 
 ## v0.5
 
 * OpenStack implementation completed by Ferdy!
+* More status/progress on actions (v0.5.1)
 
 ## v0.4
 
