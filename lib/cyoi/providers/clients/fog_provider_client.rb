@@ -18,7 +18,7 @@ class Cyoi::Providers::Clients::FogProviderClient
   end
 
   def create_key_pair(key_pair_name)
-    print "Creating key pair #{key_pair_name}... "
+    print "Acquiring a key pair #{key_pair_name}... "
     key_pair = fog_compute.key_pairs.create(:name => key_pair_name)
     puts "done"
     key_pair

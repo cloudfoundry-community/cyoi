@@ -46,11 +46,9 @@ class Cyoi::Cli::KeyPair::KeyPairCliOpenstack
 
   # provisions key pair from OpenStack and returns fog object KeyPair
   def provision_key_pair
-    print "Acquiring a key pair #{key_pair_name}... "
     if key_pair = provider_client.create_key_pair(key_pair_name)
       attributes["fingerprint"] = key_pair.fingerprint
       attributes["private_key"] = key_pair.private_key
-      puts "done"
     end
   end
 end
