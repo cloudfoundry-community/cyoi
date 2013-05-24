@@ -60,8 +60,9 @@ class Cyoi::Providers::Clients::FogProviderClient
       volume_name = v.tags["Name"]
       volume_name && volume_name.downcase == name.downcase
     end.each do |volume|
-      puts "Destroying volume #{volume.id}..."
+      print "Destroying volume #{volume.id}... "
       volume.destroy
+      puts "done"
     end
   end
 
@@ -69,8 +70,9 @@ class Cyoi::Providers::Clients::FogProviderClient
   def cleanup_unused_ip_addresses
     fog_compute.addresses.each do |a|
       unless a.server
-        puts "Deleting unused IP address #{a.public_ip}..."
+        print "Deleting unused IP address #{a.public_ip}... "
         a.destroy
+        puts "done"
       end
     end
   end
