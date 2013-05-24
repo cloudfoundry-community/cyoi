@@ -19,8 +19,9 @@ class Cyoi::Providers::Clients::FogProviderClient
 
   def create_key_pair(key_pair_name)
     print "Creating key pair #{key_pair_name}... "
-    fog_compute.key_pairs.create(:name => key_pair_name)
+    key_pair = fog_compute.key_pairs.create(:name => key_pair_name)
     puts "done"
+    key_pair
   end
 
   def valid_key_pair_fingerprint?(key_pair_name, fingerprint)
