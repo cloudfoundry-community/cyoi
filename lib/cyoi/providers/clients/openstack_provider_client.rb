@@ -7,12 +7,14 @@ require "cyoi/providers/constants/openstack_constants"
 
 class Cyoi::Providers::Clients::OpenStackProviderClient < Cyoi::Providers::Clients::FogProviderClient
   # @return [String] provisions a new public IP address in target region
-  # TODO nil if none available
   def provision_public_ip_address(options={})
+    begin
     pool = fog_compute.addresses.get_address_pools.first
     address = fog_compute.addresses.create(:pool => pool["name"])
     address.ip
-    # TODO catch error and return nil
+    rescue NoMethodError
+      print "No Public IP Found"
+    end
   end
 
   def associate_ip_address_with_server(ip_address, server)
