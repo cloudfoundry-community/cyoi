@@ -17,7 +17,7 @@ class Cyoi::Cli::Providers::ProviderCliOpenStack < Cyoi::Cli::Providers::Provide
     credentials["openstack_tenant"] = hl.ask("Tenant: ").to_s unless credentials.exists?("openstack_tenant")
     credentials["openstack_auth_url"] = hl.ask("Authorization Token URL: ").to_s unless credentials.exists?("openstack_auth_url")
     credentials["openstack_auth_url"] = credentials["openstack_auth_url"] + "/tokens" unless credentials["openstack_auth_url"].match(/\/tokens$/)
-    credentials["openstack_region"] = hl.ask("OpenStack Region (optional): ").to_s unless credentials.exists?("openstack_region")
+    credentials["openstack_region"] = hl.ask("OpenStack Region (optional): ").to_s unless credentials.has_key?("openstack_region")
   end
 
   def valid_infrastructure?
