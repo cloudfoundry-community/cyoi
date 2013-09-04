@@ -75,6 +75,16 @@ class Cyoi::Cli::AutoDetection::AutoDetectionFog
         choice["openstack_region"] = profile[:openstack_region] if profile[:openstack_region]
         fog_choices["OpenStack (#{profile_name})"] = choice
       end
+      if profile[:vsphere_username]
+        fog_choices["vSphere (#{profile_name})"] = {
+          "name" => "vsphere",
+          "provider" => "vSphere",
+          "vsphere_username" => profile[:vsphere_username],
+          "vsphere_password" => profile[:vsphere_password],
+          "vsphere_server"   => profile[:vsphere_server],
+          "vsphere_expected_pubkey_hash" => profile[:vsphere_expected_pubkey_hash]
+        }
+      end
     end
     fog_choices
   end

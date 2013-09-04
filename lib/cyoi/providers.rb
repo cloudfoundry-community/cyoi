@@ -21,6 +21,12 @@ module Cyoi::Providers
         require "cyoi/providers/clients/openstack_provider_client"
         Cyoi::Providers::Clients::OpenStackProviderClient.new(attributes)
       end
+    when :vsphere
+      @vsphere_provider_client ||= begin
+        puts "vsphere!"
+        require "cyoi/providers/clients/vsphere_provider_client"
+        Cyoi::Providers::Clients::VsphereProviderClient.new(attributes)
+      end
     else
       nil
     end
