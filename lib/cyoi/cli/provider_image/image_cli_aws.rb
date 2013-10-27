@@ -2,7 +2,7 @@ require "cyoi/cli/provider_image/image_cli_base"
 class Cyoi::Cli::Image::ImageCliAws < Cyoi::Cli::Image::ImageCliBase
 
   def image_id
-    ubuntu_1304_image_id
+    attributes["image_id"] || ubuntu_1304_image_id
   end
 
   # Ubuntu 13.04

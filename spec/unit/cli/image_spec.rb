@@ -23,13 +23,13 @@ describe "cyoi" do
 
     it "does nothing if image_id already set" do
       setting "image.image_id", "ami-123456"
-      subject.execute!
+      capture_stdout { subject.execute! }
       reload_settings!
       settings.image.image_id.should == "ami-123456"
     end
 
     it "auto-selects Ubuntu 13.04 image in region" do
-      subject.execute!
+      capture_stdout { subject.execute! }
       reload_settings!
       settings.image.image_id.should == "ami-bf1d8a8f"
     end
@@ -51,13 +51,15 @@ describe "cyoi" do
 
     it "does nothing if image_id already set" do
       setting "image.image_id", "b2d1fa83-67aa-4b6d-b171-5ea466d6d8ab"
-      subject.execute!
+      capture_stdout { subject.execute! }
+      reload_settings!
       settings.image.image_id.should == "b2d1fa83-67aa-4b6d-b171-5ea466d6d8ab"
     end
 
     it "prompts for image in menu" do
-      subject.execute!
-      settings.image.image_id.should == "b2d1fa83-67aa-4b6d-b171-5ea466d6d8ab"
+      capture_stdout { subject.execute! }
+      reload_settings!
+      settings.image.image_id.should == "chosen-image-id"
     end
   end
 end
