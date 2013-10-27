@@ -14,6 +14,9 @@ when :provider
 when :address
   require "cyoi/cli/address"
   Cyoi::Cli::Address.new(argv)
+when :image
+  require "cyoi/cli/image"
+  Cyoi::Cli::Image.new(argv)
 when :keypair, :key_pair
   require "cyoi/cli/key_pair"
   Cyoi::Cli::KeyPair.new(argv)
