@@ -1,3 +1,6 @@
+require "cyoi/cli"
+require "cyoi/cli/auto_detection"
+require "cyoi/cli/helpers"
 class Cyoi::Cli::Image
   include Cyoi::Cli::Helpers
 
