@@ -12,7 +12,9 @@ class Cyoi::Cli::Image::ImageCliBase
   end
 
   def perform_and_return_attributes
-    attributes["image_id"] = image_id
+    unless valid?
+      attributes["image_id"] = image_id
+    end
     export_attributes
   end
 
@@ -27,6 +29,6 @@ class Cyoi::Cli::Image::ImageCliBase
 
   def display_confirmation
     puts "\n"
-    puts "Confirming: Using image #{image_id}"
+    puts "Confirming: Using image #{attributes["image_id"]}"
   end
 end
