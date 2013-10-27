@@ -42,6 +42,7 @@ describe "cyoi" do
       setting "provider.credentials.openstack_api_key", "password"
       setting "provider.credentials.openstack_tenant", "tenant"
       setting "provider.credentials.openstack_auth_url", "http://1.2.3.4:5000/v2.0/tokens"
+      setting "provider.credentials.openstack_region", ""
     end
 
     subject { Cyoi::Cli::Image.new([settings_dir]) }
@@ -50,7 +51,12 @@ describe "cyoi" do
 
     it "does nothing if image_id already set" do
       setting "image.image_id", "b2d1fa83-67aa-4b6d-b171-5ea466d6d8ab"
-      # subject.execute!
+      subject.execute!
+      settings.image.image_id.should == "b2d1fa83-67aa-4b6d-b171-5ea466d6d8ab"
+    end
+
+    it "prompts for image in menu" do
+      subject.execute!
       settings.image.image_id.should == "b2d1fa83-67aa-4b6d-b171-5ea466d6d8ab"
     end
   end

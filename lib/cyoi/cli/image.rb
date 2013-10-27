@@ -31,7 +31,7 @@ class Cyoi::Cli::Image
     @image_cli ||= begin
       provider_name = settings.exists?("provider.name")
       return nil unless provider_name
-      require "cyoi/cli/provider_image/image_#{settings.provider.name}"
+      require "cyoi/cli/provider_image/image_cli_#{settings.provider.name}"
       settings["image"] ||= {}
       klass = self.class.image_cli(settings.provider.name)
       klass.new(provider_client, settings.image, hl)
