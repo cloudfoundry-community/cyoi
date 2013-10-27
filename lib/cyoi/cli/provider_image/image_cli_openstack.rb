@@ -16,13 +16,7 @@ class Cyoi::Cli::Image::ImageCliOpenStack < Cyoi::Cli::Image::ImageCliBase
   end
 
   def images
-    p provider_client.fog_compute.servers.count
-    p provider_client.fog_compute.images.count
     provider_client.fog_compute.images.map { |image| { label: image.name, code: image.id }}
-    # [
-    #   { label: "Ubuntu 10.04", code: "ubuntu-10-04"},
-    #   { label: "Ubuntu 13.04", code: "ubuntu-13-04"}
-    # ]
   end
 end
 
