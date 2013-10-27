@@ -57,6 +57,7 @@ describe "cyoi" do
     end
 
     it "prompts for image in menu" do
+      subject.should_receive(:perform_and_return_attributes).and_return({"image_id" => "chosen-image-id"})
       capture_stdout { subject.execute! }
       reload_settings!
       settings.image.image_id.should == "chosen-image-id"

@@ -2,7 +2,7 @@ require "cyoi/cli/provider_image/image_cli_base"
 class Cyoi::Cli::Image::ImageCliOpenStack < Cyoi::Cli::Image::ImageCliBase
 
   def image_id
-    attributes["image_id"] || "not implemented"
+    "not implemented"
   end
 end
 

@@ -14,9 +14,9 @@ class Cyoi::Cli::Image
       exit 1
     end
     unless valid?
-      settings["image"] = image_cli.perform_and_return_attributes
+      settings["image"] = perform_and_return_attributes
+      save_settings!
     end
-    save_settings!
     image_cli.display_confirmation
   end
 
@@ -36,6 +36,10 @@ class Cyoi::Cli::Image
       klass = self.class.image_cli(settings.provider.name)
       klass.new(provider_client, settings.image, hl)
     end
+  end
+
+  def perform_and_return_attributes
+    image_cli.perform_and_return_attributes
   end
 
   def self.register_image_cli(name, klass)
