@@ -9,7 +9,6 @@ class Cyoi::Cli::Providers::ProviderCliOpenStack < Cyoi::Cli::Providers::Provide
   end
 
   def setup_credentials
-    puts "\n"
     attributes.set_default("credentials", {})
     credentials = attributes.credentials
     credentials["openstack_username"] = hl.ask("Username: ").to_s unless credentials.exists?("openstack_username")
@@ -17,7 +16,10 @@ class Cyoi::Cli::Providers::ProviderCliOpenStack < Cyoi::Cli::Providers::Provide
     credentials["openstack_tenant"] = hl.ask("Tenant: ").to_s unless credentials.exists?("openstack_tenant")
     credentials["openstack_auth_url"] = hl.ask("Authorization Token URL: ").to_s unless credentials.exists?("openstack_auth_url")
     credentials["openstack_auth_url"] = credentials["openstack_auth_url"] + "/tokens" unless credentials["openstack_auth_url"].match(/\/tokens$/)
-    credentials["openstack_region"] = hl.ask("OpenStack Region (optional): ").to_s unless credentials.exists?("openstack_region")
+    unless credentials.has_key?("openstack_region")
+      credentials["openstack_region"] = hl.ask("OpenStack Region (optional): ").to_s.strip
+    end
+    attributes["credentials"] = credentials # need to reassign changed value
   end
 
   def valid_infrastructure?
@@ -30,7 +32,12 @@ class Cyoi::Cli::Providers::ProviderCliOpenStack < Cyoi::Cli::Providers::Provide
 
   def display_confirmation
     puts "\n"
-    puts "Confirming: Using OpenStack"
+    region = attributes.credentials["openstack_region"]
+    if region.size > 0
+      puts "Confirming: Using OpenStack/#{region} (user: #{attributes.credentials.openstack_username})"
+    else
+      puts "Confirming: Using OpenStack (user: #{attributes.credentials.openstack_username})"
+    end
   end
 end
 

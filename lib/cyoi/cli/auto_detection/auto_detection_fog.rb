@@ -64,15 +64,16 @@ class Cyoi::Cli::AutoDetection::AutoDetectionFog
         }
       end
       if profile[:openstack_username]
-        fog_choices["OpenStack (#{profile_name})"] = {
+        choice = {
           "name" => "openstack",
           "provider" => "OpenStack",
           "openstack_username" => profile[:openstack_username],
           "openstack_api_key" => profile[:openstack_api_key],
           "openstack_tenant" => profile[:openstack_tenant],
           "openstack_auth_url" => profile[:openstack_auth_url],
-          "openstack_region" => profile[:openstack_region]
         }
+        choice["openstack_region"] = profile[:openstack_region] if profile[:openstack_region]
+        fog_choices["OpenStack (#{profile_name})"] = choice
       end
     end
     fog_choices

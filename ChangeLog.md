@@ -5,6 +5,7 @@ Cyoi (choose-your-own-infrastructure) is a library to ask an end-user to choose 
 ## v0.6
 
 * added `cyoi image` - AWS: public AMI for Ubuntu 13.04; OpenStack: choose an Image from menu
+* openstack region doesn't repeatably prompt if set to nothing [v0.6.1]
 
 ## v0.5
 
