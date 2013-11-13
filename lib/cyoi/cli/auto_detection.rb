@@ -17,7 +17,7 @@ class Cyoi::Cli::AutoDetection::UI
     # Include "Alternate credentials" as the last option
     if aggregated_detector_choices.keys.size > 0
       hl.choose do |menu|
-        menu.prompt = "Choose an auto-detected infrastructure:  "
+        menu.prompt = "Choose an auto-detected infrastructure: "
         aggregated_detector_choices.each do |label, credentials|
           menu.choice(label) do
             attributes.set("name", credentials.delete("name"))

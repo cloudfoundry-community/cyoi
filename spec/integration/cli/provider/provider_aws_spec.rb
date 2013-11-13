@@ -23,6 +23,7 @@ describe "cyoi provider aws" do
     assert_passing_with(<<-OUT)
 1. AWS
 2. OpenStack
+3. vSphere
 Choose your infrastructure: 
 Using provider AWS
 
@@ -63,7 +64,7 @@ Auto-detected infrastructure API credentials at ~/.fog (override with $FOG)
 3. AWS (starkandwayne)
 4. OpenStack (personal)
 5. Alternate credentials
-Choose an auto-detected infrastructure:  
+Choose an auto-detected infrastructure: 
 Using provider AWS
 
 
