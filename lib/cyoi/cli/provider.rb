@@ -66,6 +66,7 @@ class Cyoi::Cli::Provider
       menu.prompt = "Choose your infrastructure: "
       menu.choice("AWS") { "aws" }
       menu.choice("OpenStack") { "openstack" }
+      menu.choice("vSphere") { "vsphere" }
     end
     save_settings!
   end

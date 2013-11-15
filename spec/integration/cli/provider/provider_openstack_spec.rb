@@ -27,6 +27,7 @@ describe "cyoi provider openstack" do
     assert_passing_with(<<-OUT)
 1. AWS
 2. OpenStack
+3. vSphere
 Choose your infrastructure: 
 Using provider OpenStack
 Username: Password: Tenant: Authorization Token URL: OpenStack Region (optional): 
@@ -38,7 +39,7 @@ Confirming: Using OpenStack (user: USERNAME)
       "provider" => {
         "name" => "openstack",
         "credentials"=>{
-          "openstack_username"=>"USERNAME", "openstack_api_key"=>"PASSWORD", 
+          "openstack_username"=>"USERNAME", "openstack_api_key"=>"PASSWORD",
           "openstack_tenant"=>"TENANT", "openstack_auth_url"=>"TOKENURL/tokens",
           "openstack_region"=>""
         },
@@ -58,6 +59,7 @@ Confirming: Using OpenStack (user: USERNAME)
     assert_passing_with(<<-OUT)
 1. AWS
 2. OpenStack
+3. vSphere
 Choose your infrastructure: 
 Using provider OpenStack
 Username: Password: Tenant: Authorization Token URL: OpenStack Region (optional): 
@@ -79,7 +81,7 @@ Auto-detected infrastructure API credentials at ~/.fog (override with $FOG)
 3. AWS (starkandwayne)
 4. OpenStack (personal)
 5. Alternate credentials
-Choose an auto-detected infrastructure:  
+Choose an auto-detected infrastructure: 
 Using provider OpenStack
 OpenStack Region (optional): 
 Confirming: Using OpenStack (user: USERNAME)
