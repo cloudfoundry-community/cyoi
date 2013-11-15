@@ -2,6 +2,10 @@
 
 Cyoi (choose-your-own-infrastructure) is a library to ask an end-user to choose an infrastructure (AWS, OpenStack, etc), region, and login credentials.
 
+## v0.7
+
+* vsphere provising
+
 ## v0.6
 
 * added `cyoi image` - AWS: public AMI for Ubuntu 13.04; OpenStack: choose an Image from menu
