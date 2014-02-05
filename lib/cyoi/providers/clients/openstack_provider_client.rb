@@ -6,6 +6,11 @@ require "cyoi/providers/clients/fog_provider_client"
 require "cyoi/providers/constants/openstack_constants"
 
 class Cyoi::Providers::Clients::OpenStackProviderClient < Cyoi::Providers::Clients::FogProviderClient
+  # @return [boolean] true if target OpenStack running Neutron networks
+  def networks?
+    fog_network
+  end
+
   # @return [String] provisions a new public IP address in target region
   def provision_public_ip_address(options={})
     begin
@@ -70,6 +75,12 @@ class Cyoi::Providers::Clients::OpenStackProviderClient < Cyoi::Providers::Clien
       configuration.delete(:openstack_region)
     end
     @fog_compute = Fog::Compute.new(configuration)
+  end
+
+ def fog_network
+    @fog_network ||= Fog::Network['openstack']
+  rescue Fog::Errors::NotFound
+    nil
   end
 
   def openstack_constants
