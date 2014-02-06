@@ -13,7 +13,11 @@ class Cyoi::Cli::Addresses::AddressCliOpenstack
 
   def perform_and_return_attributes
     unless valid_address?
-      provision_address
+      if networks?
+        select_subnet
+      else
+        provision_address
+      end
     end
     export_attributes
   end
@@ -38,6 +42,39 @@ class Cyoi::Cli::Addresses::AddressCliOpenstack
     print "Acquiring a public IP address... "
     attributes["ip"] = provider_client.provision_public_ip_address
     puts attributes.ip
+  end
+
+  def networks?
+    provider_client.networks?
+  end
+
+  def select_subnet
+    subnets = provider_client.subnets
+    subnet = if subnets.size == 0
+      $stderr.puts "ERROR: Your OpenStack is configured for Neutron networking but you have not yet created any subnets."
+      exit 1
+    elsif subnets.size == 1
+      subnets.first
+    else
+      @hl.choose do |menu|
+        menu.prompt = "Choose a subnet: "
+        # menu.choice("AWS") { "aws" }
+        subnets.each do |subnet|
+          menu.choice("#{pretty_subnet_name(subnet)}") { subnet }
+        end
+      end
+    end
+  end
+
+  def pretty_ip_pool_ranges(subnet)
+    ranges = subnet.allocation_pools.map do |pool|
+      "#{pool['start']}-#{pool['end']}"
+    end
+    ranges.join(',')
+  end
+
+  def pretty_subnet_name(subnet)
+    "#{subnet.name} (#{subnet.cidr})"
   end
 end
 

@@ -59,8 +59,7 @@ describe "cyoi address openstack" do
 
   context "networks" do
     it "has no networks" do
-      expect(fog_network_const).to receive(:[]).with("openstack").
-        and_raise(Fog::Errors::NotFound)
+        expect(subject).to receive(:fog_network).and_return(nil)
       expect(subject.networks?).to be_nil
     end
 
@@ -69,8 +68,7 @@ describe "cyoi address openstack" do
       end
 
       it "for sure" do
-        expect(fog_network_const).to receive(:[]).with("openstack").
-          and_return(fog_network)
+        expect(subject).to receive(:fog_network).and_return(fog_network)
         expect(subject.networks?).to_not be_nil
       end
 

@@ -87,19 +87,23 @@ class Cyoi::Providers::Clients::OpenStackProviderClient < Cyoi::Providers::Clien
     raise "not implemented yet"
   end
 
-  # Construct a Fog::Compute object
-  # Uses +attributes+ which normally originates from +settings.provider+
-  def setup_fog_connection
+  def configuration
     configuration = Fog.symbolize_credentials(attributes.credentials)
     configuration[:provider] = "OpenStack"
     if attributes.credentials.openstack_region && attributes.credentials.openstack_region.empty?
       configuration.delete(:openstack_region)
     end
+    configuration
+  end
+
+  # Construct a Fog::Compute object
+  # Uses +attributes+ which normally originates from +settings.provider+
+  def setup_fog_connection
     @fog_compute = Fog::Compute.new(configuration)
   end
 
  def fog_network
-    @fog_network ||= Fog::Network['openstack']
+    @fog_network ||= Fog::Network.new(configuration)
   rescue Fog::Errors::NotFound
     nil
   end
