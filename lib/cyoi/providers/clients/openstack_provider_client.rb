@@ -2,24 +2,66 @@
 
 module Cyoi; module Providers; module Clients; end; end; end
 
+require "ipaddr"
 require "cyoi/providers/clients/fog_provider_client"
 require "cyoi/providers/constants/openstack_constants"
 
 class Cyoi::Providers::Clients::OpenStackProviderClient < Cyoi::Providers::Clients::FogProviderClient
+  # @return [boolean] true if target OpenStack running Neutron networks
+  def networks?
+    fog_network
+  end
+
+  def subnets
+    fog_network.subnets
+  end
+
   # @return [String] provisions a new public IP address in target region
   def provision_public_ip_address(options={})
-    begin
-    pool = fog_compute.addresses.get_address_pools.first
-    address = fog_compute.addresses.create(:pool => pool["name"])
-    address.ip
-    rescue NoMethodError
-      print "No Public IP Found"
+    pool_name = options.delete("pool_name")
+    pool_name ||= begin
+      pool = fog_compute.addresses.get_address_pools.first
+      pool["name"]
     end
+    address = fog_compute.addresses.create(:pool => pool_name)
+    address.ip
+  rescue NoMethodError
+    print "No Public IP Found"
   end
 
   def associate_ip_address_with_server(ip_address, server)
     address = fog_compute.addresses.find { |a| a.ip == ip_address }
     address.server = server
+  end
+
+  # @return [Array] of IPs that are not allocated to a server
+  # Defaults to the first address pool unless
+  # "pool_name" is provided in options
+  def unallocated_floating_ip_addresses(options={})
+    pool_name = options.delete("pool_name")
+    pool_name ||= begin
+      pool = fog_compute.addresses.get_address_pools.first
+      pool["name"]
+    end
+    fog_compute.addresses.
+      select { |a| a.pool == pool_name && a.instance_id.nil? }.
+      map(&:ip)
+  end
+
+  # @return [String] IP that is available for a new VM to use
+  # allocation_pools look like:
+  # "allocation_pools" => [{"start"=>"192.168.101.2", "end"=>"192.168.101.254"}]
+  def next_available_ip_in_subnet(subnet)
+    ip = IPAddr.new(subnet.allocation_pools.first["start"])
+    skip_ips = ip_addresses_assigned_to_servers
+    while skip_ips.include?(ip.to_s)
+      ip = ip.succ
+    end
+    ip.to_s
+  end
+
+  def ip_addresses_assigned_to_servers
+    fog_compute.servers.map {|s| s.addresses}.map {|address_hash| address_hash.map {|name, addrs| addrs}}.flatten.map {|addr| addr["addr"]}
   end
 
   # Hook method for FogProviderClient#create_security_group
@@ -61,15 +103,25 @@ class Cyoi::Providers::Clients::OpenStackProviderClient < Cyoi::Providers::Clien
     raise "not implemented yet"
   end
 
-  # Construct a Fog::Compute object
-  # Uses +attributes+ which normally originates from +settings.provider+
-  def setup_fog_connection
+  def configuration
     configuration = Fog.symbolize_credentials(attributes.credentials)
     configuration[:provider] = "OpenStack"
     if attributes.credentials.openstack_region && attributes.credentials.openstack_region.empty?
       configuration.delete(:openstack_region)
     end
+    configuration
+  end
+
+  # Construct a Fog::Compute object
+  # Uses +attributes+ which normally originates from +settings.provider+
+  def setup_fog_connection
     @fog_compute = Fog::Compute.new(configuration)
+  end
+
+ def fog_network
+    @fog_network ||= Fog::Network.new(configuration)
+  rescue Fog::Errors::NotFound
+    nil
   end
 
   def openstack_constants
