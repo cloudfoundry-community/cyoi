@@ -70,9 +70,9 @@ class Cyoi::Cli::Addresses::AddressCliOpenstack
   end
 
   def choose_address_from_subnet(subnet)
-    ip = provider_client.next_available_ip_in_subnet(subnet)
+    default_ip = provider_client.next_available_ip_in_subnet(subnet)
     puts "\n"
-    puts "Auto-selected IP #{ip} from subnet"
+    ip = hl.ask("Choose IP ") { |q| q.default = default_ip }.to_s
     attributes["ip"] = ip
   end
 
