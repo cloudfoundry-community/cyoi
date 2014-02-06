@@ -51,10 +51,10 @@ describe "cyoi address openstack" do
     end
   end
 
-  it "returns unallocated IPs for a pool" do
+  it "returns unallocated floating IPs for a pool" do
     expect(subject).to receive(:fog_compute).and_return(fog_compute)
     expect(fog_compute).to receive(:addresses).and_return([unallocated_address, allocated_address])
-    expect(subject.unallocated_addresses("pool_name" => "INTERNET")).to eq(['1.2.3.4'])
+    expect(subject.unallocated_floating_ip_addresses("pool_name" => "INTERNET")).to eq(['1.2.3.4'])
   end
 
   context "networks" do

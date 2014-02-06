@@ -37,7 +37,7 @@ class Cyoi::Providers::Clients::OpenStackProviderClient < Cyoi::Providers::Clien
   # @return [Array] of IPs that are not allocated to a server
   # Defaults to the first address pool unless
   # "pool_name" is provided in options
-  def unallocated_addresses(options={})
+  def unallocated_floating_ip_addresses(options={})
     pool_name = options.delete("pool_name")
     pool_name ||= begin
       pool = fog_compute.addresses.get_address_pools.first
