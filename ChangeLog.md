@@ -2,6 +2,12 @@
 
 Cyoi (choose-your-own-infrastructure) is a library to ask an end-user to choose an infrastructure (AWS, OpenStack, etc), region, and login credentials.
 
+## v0.8
+
+* openstack - detection of nova vs neutron networking
+* openstack nova - continues to provision a floating IP
+* openstack neutron - asks to select a subnet and then an available IP
+
 ## v0.7
 
 * vsphere provising
