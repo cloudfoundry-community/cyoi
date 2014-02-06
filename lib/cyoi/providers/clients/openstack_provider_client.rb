@@ -34,6 +34,20 @@ class Cyoi::Providers::Clients::OpenStackProviderClient < Cyoi::Providers::Clien
     address.server = server
   end
 
+  # @return [Array] of IPs that are not allocated to a server
+  # Defaults to the first address pool unless
+  # "pool_name" is provided in options
+  def unallocated_addresses(options={})
+    pool_name = options.delete("pool_name")
+    pool_name ||= begin
+      pool = fog_compute.addresses.get_address_pools.first
+      pool["name"]
+    end
+    fog_compute.addresses.
+      select { |a| a.pool == pool_name && a.instance_id.nil? }.
+      map(&:ip)
+  end
+
   # Hook method for FogProviderClient#create_security_group
   def ip_permissions(sg)
     sg.rules

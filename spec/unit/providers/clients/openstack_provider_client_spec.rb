@@ -23,6 +23,8 @@ describe "cyoi address openstack" do
   let(:fog_network) { instance_double("Fog::Network::OpenStack::Real") }
   let(:addresses) { instance_double("Fog::Compute::OpenStack::Addresses") }
   let(:address) { instance_double("Fog::Compute::OpenStack::Address", ip: '1.2.3.4') }
+  let(:unallocated_address) { instance_double("Fog::Compute::OpenStack::Address", ip: '1.2.3.4', instance_id: nil, pool: 'INTERNET') }
+  let(:allocated_address) { instance_double("Fog::Compute::OpenStack::Address", ip: '1.2.3.4', instance_id: 'XXX', pool: 'INTERNET') }
   let(:subnets) { instance_double("Fog::Network::OpenStack::Subnets") }
   let(:networks) {}
 
@@ -47,6 +49,12 @@ describe "cyoi address openstack" do
       expect(addresses).to receive(:create).with(pool: "INTERNET").and_return(address)
       expect(subject.provision_public_ip_address("pool_name" => "INTERNET")).to eq('1.2.3.4')
     end
+  end
+
+  it "returns unallocated IPs for a pool" do
+    expect(subject).to receive(:fog_compute).and_return(fog_compute)
+    expect(fog_compute).to receive(:addresses).and_return([unallocated_address, allocated_address])
+    expect(subject.unallocated_addresses("pool_name" => "INTERNET")).to eq(['1.2.3.4'])
   end
 
   context "networks" do
