@@ -89,6 +89,22 @@ describe "cyoi address openstack" do
         expect(subject.next_available_ip_in_subnet(subnet)).to eq("192.168.101.2")
       end
 
+      it "avoids IP addresses already allocated to other servers" do
+        expect(subject).to receive(:ip_addresses_assigned_to_servers).and_return(["192.168.101.2", "192.168.101.3"])
+        expect(subject.next_available_ip_in_subnet(subnet)).to eq("192.168.101.4")
+      end
+    end
+
+    context 'ip_addresses_assigned_to_servers' do
+      let(:addresses) do
+        {"Internet Access "=>[{"OS-EXT-IPS-MAC:mac_addr"=>"fa:16:3e:c0:4b:b3", "version"=>4, "addr"=>"192.168.101.2", "OS-EXT-IPS:type"=>"fixed"}, {"OS-EXT-IPS-MAC:mac_addr"=>"fa:16:3e:c0:4b:b3", "version"=>4, "addr"=>"174.128.50.11", "OS-EXT-IPS:type"=>"floating"}]}
+      end
+      let(:servers) { [instance_double("Fog::Compute::OpenStack::Server", addresses: addresses)] }
+      it "list of IPs" do
+        expect(subject).to receive(:fog_compute).and_return(fog_compute)
+        expect(fog_compute).to receive(:servers).and_return(servers)
+        expect(subject.ip_addresses_assigned_to_servers).to eq(["192.168.101.2", "174.128.50.11"])
+      end
     end
   end
 end

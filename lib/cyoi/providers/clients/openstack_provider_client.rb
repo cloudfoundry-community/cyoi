@@ -2,6 +2,7 @@
 
 module Cyoi; module Providers; module Clients; end; end; end
 
+require "ipaddr"
 require "cyoi/providers/clients/fog_provider_client"
 require "cyoi/providers/constants/openstack_constants"
 
@@ -52,7 +53,16 @@ class Cyoi::Providers::Clients::OpenStackProviderClient < Cyoi::Providers::Clien
   # allocation_pools look like:
   # "allocation_pools" => [{"start"=>"192.168.101.2", "end"=>"192.168.101.254"}]
   def next_available_ip_in_subnet(subnet)
-    subnet.allocation_pools.first["start"]
+    ip = IPAddr.new(subnet.allocation_pools.first["start"])
+    skip_ips = ip_addresses_assigned_to_servers
+    while skip_ips.include?(ip.to_s)
+      ip = ip.succ
+    end
+    ip.to_s
+  end
+
+  def ip_addresses_assigned_to_servers
+    fog_compute.servers.map {|s| s.addresses}.map {|address_hash| address_hash.map {|name, addrs| addrs}}.flatten.map {|addr| addr["addr"]}
   end
 
   # Hook method for FogProviderClient#create_security_group
