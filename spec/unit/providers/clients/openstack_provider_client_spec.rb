@@ -78,5 +78,17 @@ describe "cyoi address openstack" do
         expect(subject.subnets).to eq(subnets)
       end
     end
+
+    context 'next_available_ip_in_subnet' do
+      let(:subnet) { Fog::Network::OpenStack::Subnet.new(
+        "cidr" => "192.168.101.0/24",
+        "gateway_ip" => "192.168.101.1",
+        "allocation_pools" => [{"start"=>"192.168.101.2", "end"=>"192.168.101.254"}]
+      ) }
+      it "returns next IP in allocation pools" do
+        expect(subject.next_available_ip_in_subnet(subnet)).to eq("192.168.101.2")
+      end
+
+    end
   end
 end

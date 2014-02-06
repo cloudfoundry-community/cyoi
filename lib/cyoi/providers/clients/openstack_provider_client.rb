@@ -48,6 +48,13 @@ class Cyoi::Providers::Clients::OpenStackProviderClient < Cyoi::Providers::Clien
       map(&:ip)
   end
 
+  # @return [String] IP that is available for a new VM to use
+  # allocation_pools look like:
+  # "allocation_pools" => [{"start"=>"192.168.101.2", "end"=>"192.168.101.254"}]
+  def next_available_ip_in_subnet(subnet)
+    subnet.allocation_pools.first["start"]
+  end
+
   # Hook method for FogProviderClient#create_security_group
   def ip_permissions(sg)
     sg.rules
