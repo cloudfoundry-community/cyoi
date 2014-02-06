@@ -14,7 +14,8 @@ class Cyoi::Cli::Addresses::AddressCliOpenstack
   def perform_and_return_attributes
     unless valid_address?
       if networks?
-        select_subnet
+        subnet = select_subnet
+        choose_address_from_subnet(subnet)
       else
         provision_address
       end
@@ -56,7 +57,7 @@ class Cyoi::Cli::Addresses::AddressCliOpenstack
     elsif subnets.size == 1
       subnets.first
     else
-      @hl.choose do |menu|
+      hl.choose do |menu|
         menu.prompt = "Choose a subnet: "
         # menu.choice("AWS") { "aws" }
         subnets.each do |subnet|
@@ -64,6 +65,13 @@ class Cyoi::Cli::Addresses::AddressCliOpenstack
         end
       end
     end
+    attributes["net_id"] = subnet.id
+    subnet
+  end
+
+  def choose_address_from_subnet(subnet)
+    ip = hl.ask("Choose IP for Micro BOSH from subnet #{subnet.cidr}: ").to_s
+    attributes["ip"] = ip
   end
 
   def pretty_ip_pool_ranges(subnet)
