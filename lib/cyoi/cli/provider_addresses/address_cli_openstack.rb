@@ -65,7 +65,7 @@ class Cyoi::Cli::Addresses::AddressCliOpenstack
         end
       end
     end
-    attributes["net_id"] = subnet.id
+    attributes["subnet_id"] = subnet.id
     subnet
   end
 
