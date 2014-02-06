@@ -25,9 +25,8 @@ class Cyoi::Providers::Clients::OpenStackProviderClient < Cyoi::Providers::Clien
     end
     address = fog_compute.addresses.create(:pool => pool_name)
     address.ip
-    rescue NoMethodError
-      print "No Public IP Found"
-    end
+  rescue NoMethodError
+    print "No Public IP Found"
   end
 
   def associate_ip_address_with_server(ip_address, server)
