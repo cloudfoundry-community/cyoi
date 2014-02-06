@@ -70,7 +70,8 @@ class Cyoi::Cli::Addresses::AddressCliOpenstack
   end
 
   def choose_address_from_subnet(subnet)
-    ip = hl.ask("Choose IP for Micro BOSH from subnet #{subnet.cidr}: ").to_s
+    ip = provider_client.next_available_ip_in_subnet(subnet)
+    puts "Auto-selected IP #{ip} from subnet for Micro BOSH"
     attributes["ip"] = ip
   end
 
