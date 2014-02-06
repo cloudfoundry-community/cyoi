@@ -11,11 +11,18 @@ class Cyoi::Providers::Clients::OpenStackProviderClient < Cyoi::Providers::Clien
     fog_network
   end
 
+  def subnets
+    fog_network.subnets
+  end
+
   # @return [String] provisions a new public IP address in target region
   def provision_public_ip_address(options={})
-    begin
-    pool = fog_compute.addresses.get_address_pools.first
-    address = fog_compute.addresses.create(:pool => pool["name"])
+    pool_name = options.delete("pool_name")
+    pool_name ||= begin
+      pool = fog_compute.addresses.get_address_pools.first
+      pool["name"]
+    end
+    address = fog_compute.addresses.create(:pool => pool_name)
     address.ip
     rescue NoMethodError
       print "No Public IP Found"
