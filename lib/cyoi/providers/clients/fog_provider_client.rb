@@ -13,8 +13,8 @@ class Cyoi::Providers::Clients::FogProviderClient
     setup_fog_connection
   end
 
+  # Implement in subclasses
   def setup_fog_connection
-    raise "must implement"
   end
 
   def create_key_pair(key_pair_name)
@@ -80,20 +80,15 @@ class Cyoi::Providers::Clients::FogProviderClient
   # Creates or reuses an security group and opens ports.
   #
   # +security_group_name+ is the name to be created or reused
-  # +ports+ is a hash of name/port for ports to open, for example:
-  # {
-  #   ssh: 22,
-  #   http: 80,
-  #   https: 443
-  # }
+  # +ports+ is a hash of name/port for ports to open
+  #
   # protocol defaults to TCP
   # You can also use a more verbose +ports+ using the format:
-  # {
-  #   ssh: 22,
-  #   http: { ports: (80..82) },
-  #   mosh: { protocol: "udp", ports: (60000..60050) }
-  #   mosh: { protocol: "rdp", ports: (3398..3398), ip_ranges: [ { cidrIp: "196.212.12.34/32" } ] }
-  # }
+  # * 22,
+  # * { ports: (80..82) },
+  # * { protocol: "udp", ports: (60000..60050) }
+  # * { protocol: "rdp", ports: (3398..3398), ip_ranges: [ { cidrIp: "196.212.12.34/32" } ] }
+  #
   # In this example, 
   #  * TCP 22 will be opened for ssh from any ip_range,
   #  * TCP ports 80, 81, 82 for http from any ip_range,
@@ -122,7 +117,7 @@ class Cyoi::Providers::Clients::FogProviderClient
   end
 
   def port_open?(ip_permissions, port_range, protocol, ip_range)
-    ip_permissions && ip_permissions.find do |ip| 
+    ip_permissions && ip_permissions.find do |ip|
       ip["ipProtocol"] == protocol \
       && ip["ipRanges"].detect { |range| range["cidrIp"] == ip_range } \
       && ip["fromPort"] <= port_range.min \
