@@ -13,8 +13,8 @@ class Cyoi::Providers::Clients::FogProviderClient
     setup_fog_connection
   end
 
+  # Implement in subclasses
   def setup_fog_connection
-    raise "must implement"
   end
 
   def create_key_pair(key_pair_name)
@@ -80,26 +80,21 @@ class Cyoi::Providers::Clients::FogProviderClient
   # Creates or reuses an security group and opens ports.
   #
   # +security_group_name+ is the name to be created or reused
-  # +ports+ is a hash of name/port for ports to open, for example:
-  # {
-  #   ssh: 22,
-  #   http: 80,
-  #   https: 443
-  # }
+  # +ports+ is a hash of name/port for ports to open
+  #
   # protocol defaults to TCP
   # You can also use a more verbose +ports+ using the format:
-  # {
-  #   ssh: 22,
-  #   http: { ports: (80..82) },
-  #   mosh: { protocol: "udp", ports: (60000..60050) }
-  #   mosh: { protocol: "rdp", ports: (3398..3398), ip_ranges: [ { cidrIp: "196.212.12.34/32" } ] }
-  # }
+  # * 22,
+  # * { ports: (80..82) },
+  # * { protocol: "udp", ports: (60000..60050) }
+  # * { protocol: "rdp", ports: (3398..3398), ip_ranges: [ { cidrIp: "196.212.12.34/32" } ] }
+  #
   # In this example, 
   #  * TCP 22 will be opened for ssh from any ip_range,
   #  * TCP ports 80, 81, 82 for http from any ip_range,
   #  * UDP 60000 -> 60050 for mosh from any ip_range and
   #  * TCP 3398 for RDP from ip range: 96.212.12.34/32
-  def create_security_group(security_group_name, description, ports)
+  def create_security_group(security_group_name, description, defns)
     security_groups = fog_compute.security_groups
     unless sg = security_groups.find { |s| s.name == security_group_name }
       sg = fog_compute.security_groups.create(name: security_group_name, description: description)
@@ -109,12 +104,16 @@ class Cyoi::Providers::Clients::FogProviderClient
     end
     ip_permissions = ip_permissions(sg)
     ports_opened = 0
-    ports.each do |name, port_defn|
-      (protocol, port_range, ip_range) = extract_port_definition(port_defn)
-      unless port_open?(ip_permissions, port_range, protocol, ip_range)
-        authorize_port_range(sg, port_range, protocol, ip_range)
-        puts " -> opened #{name} ports #{protocol.upcase} #{port_range.min}..#{port_range.max} from IP range #{ip_range}"
-        ports_opened += 1
+    defns = defns.is_a?(Array) ? defns : [defns]
+    defns.each do |port_defn|
+      port_defns = port_defn.is_a?(Array) ? port_defn : [port_defn]
+      port_defns.each do |port_defn|
+        (protocol, port_range, ip_range) = extract_port_definition(port_defn)
+        unless port_open?(ip_permissions, port_range, protocol, ip_range)
+          authorize_port_range(sg, port_range, protocol, ip_range)
+          puts " -> opened #{security_group_name} ports #{protocol.upcase} #{port_range.min}..#{port_range.max} from IP range #{ip_range}"
+          ports_opened += 1
+        end
       end
     end
     puts " -> no additional ports opened" if ports_opened == 0
@@ -122,7 +121,7 @@ class Cyoi::Providers::Clients::FogProviderClient
   end
 
   def port_open?(ip_permissions, port_range, protocol, ip_range)
-    ip_permissions && ip_permissions.find do |ip| 
+    ip_permissions && ip_permissions.find do |ip|
       ip["ipProtocol"] == protocol \
       && ip["ipRanges"].detect { |range| range["cidrIp"] == ip_range } \
       && ip["fromPort"] <= port_range.min \
