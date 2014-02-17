@@ -66,7 +66,7 @@ class Cyoi::Providers::Clients::OpenStackProviderClient < Cyoi::Providers::Clien
 
   # Hook method for FogProviderClient#create_security_group
   def ip_permissions(sg)
-    sg.rules
+    sg.security_group_rules
   end
 
   # Hook method for FogProviderClient#create_security_group
