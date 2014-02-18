@@ -10,7 +10,7 @@ class Cyoi::Providers::Clients::FogProviderClient
   def initialize(attributes)
     @attributes = attributes.is_a?(Hash) ? ReadWriteSettings.new(attributes) : attributes
     raise "@attributes must be ReadWriteSettings (or Hash)" unless @attributes.is_a?(ReadWriteSettings)
-    setup_fog_connection
+    setup_fog_connection unless attributes.delete("skip_fog_setup")
   end
 
   # Implement in subclasses
@@ -129,20 +129,15 @@ class Cyoi::Providers::Clients::FogProviderClient
   end
 
   def port_open?(ip_permissions, port_range, protocol, ip_range)
-    ip_permissions && ip_permissions.find do |ip|
-      ip.ip_protocol == protocol \
-      && ip.ip_range.detect { |range| range["cidrIp"] == ip_range } \
-      && ip.from_port <= port_range.min \
-      && ip.to_port >= port_range.max
-    end
+    raise "must implement"
   end
 
   def authorize_port_range(sg, port_range, protocol, ip_range)
-    sg.authorize_port_range(port_range, {:ip_protocol => protocol, :cidr_ip => ip_range})
+    raise "must implement"
   end
 
   def ip_permissions(sg)
-    sg.ip_permissions
+    raise "must implement"
   end
 
   # Any of the following +port_defn+ can be used:

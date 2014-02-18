@@ -1,26 +1,19 @@
-require "cyoi/providers/clients/fog_provider_client"
-require "fog/openstack/models/compute/security_groups"
-require "fog/openstack/models/compute/security_group_rule"
+require "cyoi/providers/clients/aws_provider_client"
+require "fog/aws/models/compute/security_group"
+require "fog/aws/models/compute/security_groups"
 
-describe Cyoi::Providers::Clients::FogProviderClient do
+describe Cyoi::Providers::Clients::AwsProviderClient do
   let(:provider_attributes) do
     {
-      "name" => "openstack",
-      "credentials" => {
-        "openstack_username" => "USERNAME",
-        "openstack_api_key" => "PASSWORD",
-        "openstack_tenant" => "TENANT",
-        "openstack_auth_url" => "http://someurl.com/v2/tokens",
-        "openstack_region" => "REGION"
-      }
+      "name" => "aws",
+      "credentials" => {},
+      "skip_fog_setup" => true
     }
   end
-  let(:fog_compute) { instance_double("Fog::Compute::OpenStack::Real") }
-  let(:security_groups) { instance_double("Fog::Compute::OpenStack::SecurityGroups") }
-  let(:security_group) { instance_double("Fog::Compute::OpenStack::SecurityGroup") }
-  let(:security_group_rule) { instance_double("Fog::Compute::OpenStack::SecurityGroupRule",
-    from_port: 22, to_port: 22, ip_range: [{"cidrIp" => "0.0.0.0/0"}], ip_protocol: "tcp") }
-  subject { Cyoi::Providers::Clients::FogProviderClient.new(provider_attributes) }
+  let(:fog_compute) { instance_double("Fog::Compute::AWS::Real") }
+  let(:security_groups) { instance_double("Fog::Compute::AWS::SecurityGroups") }
+  let(:security_group) { instance_double("Fog::Compute::AWS::SecurityGroup") }
+  subject { Cyoi::Providers::Clients::AwsProviderClient.new(provider_attributes) }
 
   before do
     expect(subject).to receive(:fog_compute).at_least(1).times.and_return(fog_compute)
@@ -78,7 +71,7 @@ describe Cyoi::Providers::Clients::FogProviderClient do
       expect(fog_compute).to receive(:security_groups).and_return(security_groups)
       expect(security_groups).to receive(:find).and_return(security_group)
       expect(subject).to receive(:puts).with("Reusing security group foo")
-      expect(security_group).to receive(:ip_permissions).and_return([security_group_rule])
+      expect(security_group).to receive(:ip_permissions).and_return([{"fromPort" => 22, "toPort" => 22, "ipRanges" => [{"cidrIp" => "0.0.0.0/0"}], "ipProtocol" => "tcp"}])
       expect(subject).to receive(:puts).with(" -> no additional ports opened")
 
       subject.create_security_group("foo", "foo", 22)
