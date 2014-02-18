@@ -104,7 +104,15 @@ class Cyoi::Providers::Clients::FogProviderClient
     end
     ip_permissions = ip_permissions(sg)
     ports_opened = 0
-    defns = defns.is_a?(Array) ? defns : [defns]
+
+    # Unnest { ports: 22 } and { ports: { ports: 22..22 }} legacy inputs
+    if defns.is_a?(Hash) && defns[:ports].is_a?(Hash)
+      defns = defns[:ports]
+    end
+
+    unless defns.is_a?(Array)
+      defns = [defns]
+    end
     defns.each do |port_defn|
       port_defns = port_defn.is_a?(Array) ? port_defn : [port_defn]
       port_defns.each do |port_defn|
@@ -159,6 +167,9 @@ class Cyoi::Providers::Clients::FogProviderClient
     elsif port_defn.is_a? Hash
       protocol = port_defn[:protocol] if port_defn[:protocol]
       port_range = port_defn[:ports]  if port_defn[:ports]
+      if port_range.is_a? Integer
+        port_range = (port_range..port_range)
+      end
       ip_range = port_defn[:ip_range] if port_defn[:ip_range]
     end
     [protocol, port_range, ip_range]

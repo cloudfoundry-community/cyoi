@@ -36,7 +36,7 @@ describe Cyoi::Providers::Clients::FogProviderClient do
       subject.create_security_group("foo", "foo", 22)
     end
 
-    it "add new single port to existing SecurityGroup" do
+    it "add new single port by integer to existing SecurityGroup" do
       expect(fog_compute).to receive(:security_groups).and_return(security_groups)
       expect(security_groups).to receive(:find).and_return(security_group)
       expect(subject).to receive(:puts).with("Reusing security group foo")
@@ -45,6 +45,30 @@ describe Cyoi::Providers::Clients::FogProviderClient do
       expect(subject).to receive(:puts).with(" -> opened foo ports TCP 22..22 from IP range 0.0.0.0/0")
 
       subject.create_security_group("foo", "foo", 22)
+    end
+
+    context 'legacy API used by old bosh-bootstrap - allow :ports key' do
+      it "add new single port by :ports key to existing SecurityGroup" do
+        expect(fog_compute).to receive(:security_groups).and_return(security_groups)
+        expect(security_groups).to receive(:find).and_return(security_group)
+        expect(subject).to receive(:puts).with("Reusing security group foo")
+        expect(security_group).to receive(:ip_permissions)
+        expect(security_group).to receive(:authorize_port_range).with(22..22, {:ip_protocol=>"tcp", :cidr_ip=>"0.0.0.0/0"})
+        expect(subject).to receive(:puts).with(" -> opened foo ports TCP 22..22 from IP range 0.0.0.0/0")
+
+        subject.create_security_group("foo", "foo", ports: 22)
+      end
+
+    it "add UDP ports by :ports key" do
+      expect(fog_compute).to receive(:security_groups).and_return(security_groups)
+      expect(security_groups).to receive(:find).and_return(security_group)
+      expect(subject).to receive(:puts).with("Reusing security group foo")
+      expect(security_group).to receive(:ip_permissions)
+      expect(security_group).to receive(:authorize_port_range).with(53..53, {:ip_protocol=>"udp", :cidr_ip=>"0.0.0.0/0"})
+      expect(subject).to receive(:puts).with(" -> opened foo ports UDP 53..53 from IP range 0.0.0.0/0")
+
+      subject.create_security_group("foo", "foo", ports: { protocol: "udp", ports: (53..53) })
+    end
     end
 
     it "add skip existing single port on existing SecurityGroup" do
@@ -66,6 +90,17 @@ describe Cyoi::Providers::Clients::FogProviderClient do
       expect(subject).to receive(:puts).with(" -> opened foo ports TCP 60000..60050 from IP range 0.0.0.0/0")
 
       subject.create_security_group("foo", "foo", ports: 60000..60050)
+    end
+
+    it "add UDP ports" do
+      expect(fog_compute).to receive(:security_groups).and_return(security_groups)
+      expect(security_groups).to receive(:find).and_return(security_group)
+      expect(subject).to receive(:puts).with("Reusing security group foo")
+      expect(security_group).to receive(:ip_permissions)
+      expect(security_group).to receive(:authorize_port_range).with(53..53, {:ip_protocol=>"udp", :cidr_ip=>"0.0.0.0/0"})
+      expect(subject).to receive(:puts).with(" -> opened foo ports UDP 53..53 from IP range 0.0.0.0/0")
+
+      subject.create_security_group("foo", "foo", { protocol: "udp", ports: (53..53) })
     end
 
     it "add list of unrelated ports" do
