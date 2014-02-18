@@ -70,16 +70,6 @@ class Cyoi::Providers::Clients::OpenStackProviderClient < Cyoi::Providers::Clien
   end
 
   # Hook method for FogProviderClient#create_security_group
-  def port_open?(ip_permissions, port_range, protocol, ip_range)
-    ip_permissions && ip_permissions.find do |ip|
-      ip["ip_protocol"] == protocol \
-      && ip["ip_range"].select { |range| range["cidr"] == ip_range } \
-      && ip["from_port"] <= port_range.min \
-      && ip["to_port"] >= port_range.max
-    end
-  end
-
-  # Hook method for FogProviderClient#create_security_group
   def authorize_port_range(sg, port_range, protocol, ip_range)
     sg.create_security_group_rule(port_range.min, port_range.max, protocol, ip_range)
   end
