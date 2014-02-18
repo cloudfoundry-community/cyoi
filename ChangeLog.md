@@ -8,6 +8,7 @@ Cyoi (choose-your-own-infrastructure) is a library to ask an end-user to choose 
 * openstack nova - continues to provision a floating IP
 * openstack neutron - asks to select a subnet and then an available IP
 * create_security_group can take a list of ports to open [v0.8.1]
+* allow for legacy API usage of create_security_group [v0.8.2]
 
 ## v0.7
 
