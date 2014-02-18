@@ -19,7 +19,7 @@ describe Cyoi::Providers::Clients::FogProviderClient do
   let(:security_groups) { instance_double("Fog::Compute::OpenStack::SecurityGroups") }
   let(:security_group) { instance_double("Fog::Compute::OpenStack::SecurityGroup") }
   let(:security_group_rule) { instance_double("Fog::Compute::OpenStack::SecurityGroupRule",
-    from_port: 22, to_port: 22, ip_ranges: [{"cidrIp" => "0.0.0.0/0"}], ip_protocol: "tcp") }
+    from_port: 22, to_port: 22, ip_range: [{"cidrIp" => "0.0.0.0/0"}], ip_protocol: "tcp") }
   subject { Cyoi::Providers::Clients::FogProviderClient.new(provider_attributes) }
 
   before do

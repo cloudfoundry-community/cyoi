@@ -131,7 +131,7 @@ class Cyoi::Providers::Clients::FogProviderClient
   def port_open?(ip_permissions, port_range, protocol, ip_range)
     ip_permissions && ip_permissions.find do |ip|
       ip.ip_protocol == protocol \
-      && ip.ip_ranges.detect { |range| range["cidrIp"] == ip_range } \
+      && ip.ip_range.detect { |range| range["cidrIp"] == ip_range } \
       && ip.from_port <= port_range.min \
       && ip.to_port >= port_range.max
     end
