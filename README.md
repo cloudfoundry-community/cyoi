@@ -3,7 +3,7 @@ Choose Your Own Infrastructure
 
 A library to ask an end-user to choose an infrastructure (AWS, OpenStack, etc), region, and login credentials.
 
-This library was extracted from [inception-server](https://github.com/drnic/inception-server) for reuse by [bosh-bootstrap](https://github.com/StarkAndWayne/bosh-bootstrap). It might also be useful to your own CLI applications that need to ask a user to give you their infrastructure credentials/region so your application can control their infrastructure (say via [fog](http://fog.io)).
+This library was extracted from [inception-server](https://github.com/cloudfoundry-community/inception-server) for reuse by [bosh-bootstrap](https://github.com/cloudfoundry-community/bosh-bootstrap). It might also be useful to your own CLI applications that need to ask a user to give you their infrastructure credentials/region so your application can control their infrastructure (say via [fog](http://fog.io)).
 
 [![Build Status](https://travis-ci.org/cloudfoundry-community/cyoi.png?branch=master)](https://travis-ci.org/cloudfoundry-community/cyoi)[![Code Climate](https://codeclimate.com/github/cloudfoundry-community/cyoi.png)](https://codeclimate.com/github/cloudfoundry-community/cyoi)
 
