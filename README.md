@@ -1,11 +1,11 @@
-# Choose Your Own Infrastructure
+Choose Your Own Infrastructure
+==============================
 
 A library to ask an end-user to choose an infrastructure (AWS, OpenStack, etc), region, and login credentials.
 
 This library was extracted from [inception-server](https://github.com/drnic/inception-server) for reuse by [bosh-bootstrap](https://github.com/StarkAndWayne/bosh-bootstrap). It might also be useful to your own CLI applications that need to ask a user to give you their infrastructure credentials/region so your application can control their infrastructure (say via [fog](http://fog.io)).
 
-[![Build Status](https://travis-ci.org/drnic/cyoi.png?branch=master)](https://travis-ci.org/drnic/cyoi)
-[![Code Climate](https://codeclimate.com/github/drnic/cyoi.png)](https://codeclimate.com/github/drnic/cyoi)
+[![Build Status](https://travis-ci.org/cloudfoundry-community/cyoi.png?branch=master)](https://travis-ci.org/drnic/cyoi)[![Code Climatehttps://codeclimate.com/github/cloudfoundry-community/cyoi.png)](https://codeclimate.com/github/cloudfoundry-community/cyoi)
 
 When you use the library, your application will attempt to guess what infrastructure/credentials the user will use (via `~/.fog`) and then fall back to prompting for remaining information:
 
@@ -39,9 +39,10 @@ Secret key: SECRETGOESHERE
 Confirming: Using aws/us-west-2
 ```
 
-## Usage
+Usage
+-----
 
-``` ruby
+```ruby
 provider_cli = Cyoi::Cli::Provider.new([settings_dir])
 provider_cli.execute!
 settings = YAML.load_file(File.join(settings_dir, "settings.yml"))
@@ -51,7 +52,8 @@ settings["provider"]["region"] # us-east-1
 settings["provider"]["credentials"] # aws or openstack URLs & credentials
 ```
 
-## Installation
+Installation
+------------
 
 To use as a stand-alone CLI, install the rubygem:
 
@@ -65,7 +67,8 @@ To use it as a library within your own application, add this line to your applic
 gem "cyoi"
 ```
 
-## Contributing
+Contributing
+------------
 
 1. Fork it
 2. Create your feature branch (`git checkout -b my-new-feature`)
