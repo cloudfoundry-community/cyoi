@@ -84,5 +84,5 @@ RSpec.configure do |c|
     setup_path
   end
 
-  c.color_enabled = true
+  c.color = true
 end
