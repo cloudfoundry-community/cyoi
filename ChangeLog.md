@@ -7,6 +7,7 @@ v0.9
 ----
 
 - openstack - prompt for type of image format (qcow2 v raw) and store as provider.options.boot_from_volume
+- openstack - provides required parent_group_id field when authorizing security group ports [v0.9.2]
 
 v0.8
 ----
