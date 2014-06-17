@@ -114,7 +114,7 @@ describe "cyoi address openstack" do
 
   describe "create_security_group" do
     let(:security_groups) { instance_double("Fog::Compute::OpenStack::SecurityGroups") }
-    let(:security_group) { instance_double("Fog::Compute::OpenStack::SecurityGroup") }
+    let(:security_group) { instance_double("Fog::Compute::OpenStack::SecurityGroup", id: 1234) }
     let(:security_group_rules) { instance_double("Fog::Compute::OpenStack::SecurityGroupRules") }
     let(:security_group_rule) { instance_double("Fog::Compute::OpenStack::SecurityGroupRule",
       from_port: 22, to_port: 22, ip_range: [{"cidrIp" => "0.0.0.0/0"}], ip_protocol: "tcp") }
@@ -130,7 +130,7 @@ describe "cyoi address openstack" do
       expect(subject).to receive(:puts).with("Created security group foo")
       expect(security_group).to receive(:security_group_rules).twice.and_return(security_group_rules)
       expect(security_group_rules).to receive(:find)
-      expect(security_group_rules).to receive(:create).with(from_port: 22, to_port: 22, ip_protocol: "tcp", ip_range: {"cidr" => "0.0.0.0/0"})
+      expect(security_group_rules).to receive(:create).with(parent_group_id: 1234, from_port: 22, to_port: 22, ip_protocol: "tcp", ip_range: {"cidr" => "0.0.0.0/0"})
       expect(subject).to receive(:puts).with(" -> opened foo ports TCP 22..22 from IP range 0.0.0.0/0")
 
       subject.create_security_group("foo", "foo", 22)
@@ -142,7 +142,7 @@ describe "cyoi address openstack" do
       expect(subject).to receive(:puts).with("Reusing security group foo")
       expect(security_group).to receive(:security_group_rules).twice.and_return(security_group_rules)
       expect(security_group_rules).to receive(:find)
-      expect(security_group_rules).to receive(:create).with(from_port: 22, to_port: 22, ip_protocol: "tcp", ip_range: {"cidr" => "0.0.0.0/0"})
+      expect(security_group_rules).to receive(:create).with(parent_group_id: 1234, from_port: 22, to_port: 22, ip_protocol: "tcp", ip_range: {"cidr" => "0.0.0.0/0"})
       expect(subject).to receive(:puts).with(" -> opened foo ports TCP 22..22 from IP range 0.0.0.0/0")
 
       subject.create_security_group("foo", "foo", 22)
@@ -155,7 +155,7 @@ describe "cyoi address openstack" do
         expect(subject).to receive(:puts).with("Reusing security group foo")
       expect(security_group).to receive(:security_group_rules).twice.and_return(security_group_rules)
       expect(security_group_rules).to receive(:find)
-      expect(security_group_rules).to receive(:create).with(from_port: 22, to_port: 22, ip_protocol: "tcp", ip_range: {"cidr" => "0.0.0.0/0"})
+      expect(security_group_rules).to receive(:create).with(parent_group_id: 1234, from_port: 22, to_port: 22, ip_protocol: "tcp", ip_range: {"cidr" => "0.0.0.0/0"})
         expect(subject).to receive(:puts).with(" -> opened foo ports TCP 22..22 from IP range 0.0.0.0/0")
 
         subject.create_security_group("foo", "foo", ports: 22)
@@ -167,7 +167,7 @@ describe "cyoi address openstack" do
       expect(subject).to receive(:puts).with("Reusing security group foo")
       expect(security_group).to receive(:security_group_rules).twice.and_return(security_group_rules)
       expect(security_group_rules).to receive(:find)
-      expect(security_group_rules).to receive(:create).with(from_port: 53, to_port: 53, ip_protocol: "udp", ip_range: {"cidr" => "0.0.0.0/0"})
+      expect(security_group_rules).to receive(:create).with(parent_group_id: 1234, from_port: 53, to_port: 53, ip_protocol: "udp", ip_range: {"cidr" => "0.0.0.0/0"})
       expect(subject).to receive(:puts).with(" -> opened foo ports UDP 53..53 from IP range 0.0.0.0/0")
 
       subject.create_security_group("foo", "foo", ports: { protocol: "udp", ports: (53..53) })
@@ -191,7 +191,7 @@ describe "cyoi address openstack" do
       expect(subject).to receive(:puts).with("Reusing security group foo")
       expect(security_group).to receive(:security_group_rules).twice.and_return(security_group_rules)
       expect(security_group_rules).to receive(:find)
-      expect(security_group_rules).to receive(:create).with(from_port: 60000, to_port: 60050, ip_protocol: "tcp", ip_range: {"cidr" => "0.0.0.0/0"})
+      expect(security_group_rules).to receive(:create).with(parent_group_id: 1234, from_port: 60000, to_port: 60050, ip_protocol: "tcp", ip_range: {"cidr" => "0.0.0.0/0"})
       expect(subject).to receive(:puts).with(" -> opened foo ports TCP 60000..60050 from IP range 0.0.0.0/0")
 
       subject.create_security_group("foo", "foo", ports: 60000..60050)
@@ -203,7 +203,7 @@ describe "cyoi address openstack" do
       expect(subject).to receive(:puts).with("Reusing security group foo")
       expect(security_group).to receive(:security_group_rules).twice.and_return(security_group_rules)
       expect(security_group_rules).to receive(:find)
-      expect(security_group_rules).to receive(:create).with(from_port: 53, to_port: 53, ip_protocol: "udp", ip_range: {"cidr" => "0.0.0.0/0"})
+      expect(security_group_rules).to receive(:create).with(parent_group_id: 1234, from_port: 53, to_port: 53, ip_protocol: "udp", ip_range: {"cidr" => "0.0.0.0/0"})
       expect(subject).to receive(:puts).with(" -> opened foo ports UDP 53..53 from IP range 0.0.0.0/0")
 
       subject.create_security_group("foo", "foo", { protocol: "udp", ports: (53..53) })
@@ -215,9 +215,9 @@ describe "cyoi address openstack" do
       expect(subject).to receive(:puts).with("Reusing security group foo")
       expect(security_group).to receive(:security_group_rules).at_least(1).times.and_return(security_group_rules)
       expect(security_group_rules).to receive(:find).at_least(1).times
-      expect(security_group_rules).to receive(:create).with(from_port: 22, to_port: 22, ip_protocol: "tcp", ip_range: {"cidr" => "0.0.0.0/0"})
-      expect(security_group_rules).to receive(:create).with(from_port: 443, to_port: 443, ip_protocol: "tcp", ip_range: {"cidr" => "0.0.0.0/0"})
-      expect(security_group_rules).to receive(:create).with(from_port: 4443, to_port: 4443, ip_protocol: "tcp", ip_range: {"cidr" => "0.0.0.0/0"})
+      expect(security_group_rules).to receive(:create).with(parent_group_id: 1234, from_port: 22, to_port: 22, ip_protocol: "tcp", ip_range: {"cidr" => "0.0.0.0/0"})
+      expect(security_group_rules).to receive(:create).with(parent_group_id: 1234, from_port: 443, to_port: 443, ip_protocol: "tcp", ip_range: {"cidr" => "0.0.0.0/0"})
+      expect(security_group_rules).to receive(:create).with(parent_group_id: 1234, from_port: 4443, to_port: 4443, ip_protocol: "tcp", ip_range: {"cidr" => "0.0.0.0/0"})
       expect(subject).to receive(:puts).with(" -> opened foo ports TCP 22..22 from IP range 0.0.0.0/0")
       expect(subject).to receive(:puts).with(" -> opened foo ports TCP 443..443 from IP range 0.0.0.0/0")
       expect(subject).to receive(:puts).with(" -> opened foo ports TCP 4443..4443 from IP range 0.0.0.0/0")

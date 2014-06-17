@@ -81,7 +81,7 @@ class Cyoi::Providers::Clients::OpenStackProviderClient < Cyoi::Providers::Clien
   # Hook method for FogProviderClient#create_security_group
   def authorize_port_range(sg, port_range, protocol, ip_range)
     rules = ip_permissions(sg)
-    rules.create(from_port: port_range.min, to_port: port_range.max, ip_range: {"cidr" => ip_range}, ip_protocol: protocol)
+    rules.create(parent_group_id: sg.id, from_port: port_range.min, to_port: port_range.max, ip_range: {"cidr" => ip_range}, ip_protocol: protocol)
   end
 
   def find_server_device(server, device)
