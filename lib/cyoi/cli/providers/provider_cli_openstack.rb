@@ -4,6 +4,7 @@ class Cyoi::Cli::Providers::ProviderCliOpenStack < Cyoi::Cli::Providers::Provide
     unless valid_infrastructure?
       puts "\nUsing provider OpenStack\n"
       setup_credentials
+      setup_options
     end
     export_attributes
   end
@@ -20,6 +21,21 @@ class Cyoi::Cli::Providers::ProviderCliOpenStack < Cyoi::Cli::Providers::Provide
       credentials["openstack_region"] = hl.ask("OpenStack Region (optional): ").to_s.strip
     end
     attributes["credentials"] = credentials # need to reassign changed value
+  end
+
+  def setup_options
+    attributes.set_default("options", {})
+    options = attributes.options
+
+    unless options.has_key?("boot_from_volume")
+      image_type = hl.choose do |menu|
+        menu.prompt = "Image format to be used: "
+        menu.choice("QCOW2*") { "qcow2" }
+        menu.choice("RAW") { "raw" }
+        menu.default ="QCOW2*"
+      end
+      options["boot_from_volume"] = (image_type && image_type.to_s == "raw")
+    end
   end
 
   def valid_infrastructure?

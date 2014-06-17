@@ -89,7 +89,7 @@ class Cyoi::Providers::Clients::FogProviderClient
   # * { protocol: "udp", ports: (60000..60050) }
   # * { protocol: "rdp", ports: (3398..3398), ip_ranges: [ { cidrIp: "196.212.12.34/32" } ] }
   #
-  # In this example, 
+  # In this example,
   #  * TCP 22 will be opened for ssh from any ip_range,
   #  * TCP ports 80, 81, 82 for http from any ip_range,
   #  * UDP 60000 -> 60050 for mosh from any ip_range and
