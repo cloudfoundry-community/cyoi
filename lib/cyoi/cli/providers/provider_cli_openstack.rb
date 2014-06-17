@@ -27,6 +27,7 @@ class Cyoi::Cli::Providers::ProviderCliOpenStack < Cyoi::Cli::Providers::Provide
     attributes.set_default("options", {})
     options = attributes.options
 
+    puts ""
     unless options.has_key?("boot_from_volume")
       image_type = hl.choose do |menu|
         menu.prompt = "Image format to be used: "
