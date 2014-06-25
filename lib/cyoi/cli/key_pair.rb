@@ -41,9 +41,11 @@ class Cyoi::Cli::KeyPair
       provider_name = settings.exists?("provider.name")
       return nil unless provider_name
       require "cyoi/cli/provider_key_pair/key_pair_#{settings.provider.name}"
-      klass = self.class.key_pair_cli(settings.provider.name)
+
       settings["key_pair"] ||= {}
       settings.key_pair["name"] = key_pair_name
+
+      klass = self.class.key_pair_cli(settings.provider.name)
       klass.new(provider_client, settings.key_pair, hl)
     end
   end

@@ -112,6 +112,12 @@ class Cyoi::Providers::Clients::OpenStackProviderClient < Cyoi::Providers::Clien
     configuration
   end
 
+  # May throw odd exception if OpenStack doesn't support Swift, like:
+  #   NoMethodError: undefined method `join' for "object-store":String
+  def fog_storage
+    @fog_storage ||= Fog::Storage.new(configuration)
+  end
+
   # Construct a Fog::Compute object
   # Uses +attributes+ which normally originates from +settings.provider+
   def setup_fog_connection

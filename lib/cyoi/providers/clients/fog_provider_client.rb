@@ -17,6 +17,26 @@ class Cyoi::Providers::Clients::FogProviderClient
   def setup_fog_connection
   end
 
+  def supports_blobstore_service?
+    fog_storage
+  rescue
+    false
+  end
+
+  def create_blobstore(blobstore_name)
+    unless supports_blobstore_service?
+      puts "Provider does not support blobstore service"
+      false
+    else
+      print "Attempting to create blobstore #{blobstore_name}... "
+      blobstore = fog_storage.directories.create(key: blobstore_name)
+      puts "done"
+      blobstore
+    end
+  rescue Excon::Errors::Conflict => e
+    puts "failed: blobstore already exists but owned by someone else"
+  end
+
   def create_key_pair(key_pair_name)
     print "Acquiring a key pair #{key_pair_name}... "
     key_pair = fog_compute.key_pairs.create(:name => key_pair_name)

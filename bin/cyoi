@@ -17,11 +17,14 @@ when :address
 when :image
   require "cyoi/cli/image"
   Cyoi::Cli::Image.new(argv)
+when :blobstore
+  require "cyoi/cli/blobstore"
+  Cyoi::Cli::Blobstore.new(argv)
 when :keypair, :key_pair
   require "cyoi/cli/key_pair"
   Cyoi::Cli::KeyPair.new(argv)
 else
-  $stderr.puts "USAGE: cyoi [provider|address|key_pair]"
+  $stderr.puts "USAGE: cyoi [provider|address|image|blobstore|key_pair]"
   exit 1
 end
 
