@@ -174,6 +174,14 @@ class Cyoi::Providers::Clients::AwsProviderClient < Cyoi::Providers::Clients::Fo
     server
   end
 
+  def fog_storage
+    @fog_storage ||= begin
+      configuration = Fog.symbolize_credentials(attributes.credentials)
+      configuration[:provider] = "AWS"
+      Fog::Storage.new(configuration)
+    end
+  end
+
   # Construct a Fog::Compute object
   # Uses +attributes+ which normally originates from +settings.provider+
   def setup_fog_connection

@@ -3,6 +3,11 @@ Change Log
 
 Cyoi (choose-your-own-infrastructure) is a library to ask an end-user to choose an infrastructure (AWS, OpenStack, etc), region, and login credentials.
 
+v0.10
+-----
+
+- `blobstores` - create a bucket/container on AWS/OpenStack
+
 v0.9
 ----
 
