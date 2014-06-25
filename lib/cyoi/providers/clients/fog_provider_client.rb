@@ -33,8 +33,12 @@ class Cyoi::Providers::Clients::FogProviderClient
       puts "done"
       blobstore
     end
+  rescue Excon::Errors::Forbidden => e
+    puts "failed: credentials do not allow blobstore to be created"
+    false
   rescue Excon::Errors::Conflict => e
     puts "failed: blobstore already exists but owned by someone else"
+    false
   end
 
   def create_key_pair(key_pair_name)
