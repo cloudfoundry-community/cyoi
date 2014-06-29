@@ -20,7 +20,7 @@ describe "cyoi address openstack" do
     end
 
     it "address aleady assigned" do
-      pending("Fog::Compute::OpenStack.list_address_pools does not provide a mock test")
+      skip("Fog::Compute::OpenStack.list_address_pools does not provide a mock test")
       setting "provider.name", "openstack"
       setting "provider.credentials.openstack_username", "USERNAME"
       setting "provider.credentials.openstack_api_key", "PASSWORD"
@@ -33,7 +33,7 @@ describe "cyoi address openstack" do
     end
 
     it "address is provisioned from OpenStack" do
-      pending("Fog::Compute::OpenStack.list_address_pools does not provide a mock test")
+      skip("Fog::Compute::OpenStack.list_address_pools does not provide a mock test")
       run_interactive(unescape("cyoi address #{settings_dir}"))
       assert_passing_with("Confirming: Using address")
     end
