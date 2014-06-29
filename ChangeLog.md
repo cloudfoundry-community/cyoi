@@ -7,6 +7,7 @@ v0.10
 -----
 
 - `blobstores` - create a bucket/container on AWS/OpenStack
+- `blobstores` - AWS bucket is made publicly readable via bucket policy [v0.10.1]
 
 v0.9
 ----
