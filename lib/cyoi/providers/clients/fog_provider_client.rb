@@ -23,12 +23,15 @@ class Cyoi::Providers::Clients::FogProviderClient
     false
   end
 
+  # Creates a bucket/object-store/directory/blobstore
+  # To be overridden to make the bucket publicly read-only
+  # per IaaS.
   def create_blobstore(blobstore_name)
     unless supports_blobstore_service?
       puts "Provider does not support blobstore service"
       false
     else
-      print "Attempting to create blobstore #{blobstore_name}... "
+      print "Creating publicly readable blobstore #{blobstore_name}... "
       blobstore = fog_storage.directories.create(key: blobstore_name)
       puts "done"
       blobstore

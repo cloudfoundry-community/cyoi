@@ -8,6 +8,26 @@ require "cyoi/providers/constants/aws_constants"
 class Cyoi::Providers::Clients::AwsProviderClient < Cyoi::Providers::Clients::FogProviderClient
   include Cyoi::Providers::Constants::AwsConstants
 
+  # Creates a bucket and makes it publicly read-only
+  def create_blobstore(blobstore_name)
+    super
+    policy = {
+      "Version" => "2008-10-17",
+      "Statement" => [
+        {
+          "Sid" => "AddPerm",
+          "Effect" => "Allow",
+          "Principal" => {
+            "AWS" => "*"
+          },
+          "Action" => "s3:GetObject",
+          "Resource" => "arn:aws:s3:::#{blobstore_name}/*"
+        }
+      ]
+    }
+    fog_storage.put_bucket_policy(blobstore_name, policy)
+  end
+
   # @return [Integer] megabytes of RAM for requested flavor of server
   def ram_for_server_flavor(server_flavor_id)
     if flavor = fog_compute_flavor(server_flavor_id)
