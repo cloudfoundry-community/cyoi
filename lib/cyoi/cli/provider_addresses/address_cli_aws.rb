@@ -14,11 +14,13 @@ class Cyoi::Cli::Addresses::AddressCliAws
   def perform_and_return_attributes
     unless valid_address?
       if networks?
-        vpc = select_vpc
-        subnet = select_subnet_for_vpc(vpc)
-        choose_address_from_subnet(subnet)
-      else
-        puts "Using EC2 as region #{region} has no VPCs"
+        if vpc = select_vpc
+          subnet = select_subnet_for_vpc(vpc)
+          choose_address_from_subnet(subnet)
+        end
+      end
+      unless attributes.exists?("ip")
+        puts "Using EC2..."
         provision_address
       end
     end
@@ -61,9 +63,10 @@ class Cyoi::Cli::Addresses::AddressCliAws
         vpcs.each do |vpc|
           menu.choice("#{pretty_vpc_name(vpc)}") { vpc }
         end
+        menu.choice("EC2 only") { nil }
       end
     end
-    attributes["vpc_id"] = vpc.id
+    attributes["vpc_id"] = vpc.id if vpc
     vpc
 
   end
