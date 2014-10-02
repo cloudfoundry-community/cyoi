@@ -27,7 +27,7 @@ class Cyoi::Cli::Providers::ProviderCliAws < Cyoi::Cli::Providers::ProviderCli
         menu_item = "#{label} (#{code})"
         if code == default_region_code
           menu_item = "*#{menu_item}"
-          default_menu_item = menu_item 
+          default_menu_item = menu_item
         end
         menu.choice(menu_item) do
           attributes["region"] = code.to_s
@@ -45,7 +45,8 @@ class Cyoi::Cli::Providers::ProviderCliAws < Cyoi::Cli::Providers::ProviderCli
 
   def display_confirmation
     puts "\n"
-    puts "Confirming: Using AWS/#{attributes.region}"
+    type = attributes.exists?("vpc") ? "VPC" : "EC2"
+    puts "Confirming: Using AWS #{type}/#{attributes.region}"
   end
 
   protected

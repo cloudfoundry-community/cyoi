@@ -124,7 +124,7 @@ class Cyoi::Providers::Clients::OpenStackProviderClient < Cyoi::Providers::Clien
     @fog_compute = Fog::Compute.new(configuration)
   end
 
- def fog_network
+  def fog_network
     @fog_network ||= Fog::Network.new(configuration)
   rescue Fog::Errors::NotFound
     nil

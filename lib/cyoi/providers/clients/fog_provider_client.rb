@@ -121,13 +121,23 @@ class Cyoi::Providers::Clients::FogProviderClient
   #  * TCP ports 80, 81, 82 for http from any ip_range,
   #  * UDP 60000 -> 60050 for mosh from any ip_range and
   #  * TCP 3398 for RDP from ip range: 96.212.12.34/32
-  def create_security_group(security_group_name, description, defns)
+  def create_security_group(security_group_name, description, defns, extra_attributes={})
     security_groups = fog_compute.security_groups
-    unless sg = security_groups.find { |s| s.name == security_group_name }
-      sg = fog_compute.security_groups.create(name: security_group_name, description: description)
-      puts "Created security group #{security_group_name}"
+    sg = security_groups.find do |s|
+      if extra_attributes[:vpc_id]
+        s.name == security_group_name && s.vpc_id == extra_attributes[:vpc_id]
+      else
+        s.name == security_group_name
+      end
+    end
+
+    suffix = extra_attributes[:vpc_id] ? " for the VPC" : ""
+    unless sg
+      attributes = {name: security_group_name, description: description}.merge(extra_attributes)
+      sg = fog_compute.security_groups.create(attributes)
+      puts "Created security group #{security_group_name}#{suffix}"
     else
-      puts "Reusing security group #{security_group_name}"
+      puts "Reusing security group #{security_group_name}#{suffix}"
     end
     ip_permissions = ip_permissions(sg)
     ports_opened = 0
