@@ -2,6 +2,7 @@
 
 module Cyoi; module Providers; module Clients; end; end; end
 
+require "ipaddr"
 require "cyoi/providers/clients/fog_provider_client"
 require "cyoi/providers/constants/aws_constants"
 
@@ -76,9 +77,41 @@ class Cyoi::Providers::Clients::AwsProviderClient < Cyoi::Providers::Clients::Fo
     address.server = server
   end
 
+  # @return [String] IP that is available for a new VM to use in a subnet
+  # AWS reserves both the first four IP addresses and the last IP address in each subnet CIDR block.
+  # They're not available for you to use.
+  def next_available_ip_in_subnet(subnet)
+    return nil if subnet.available_ip_address_count.to_i < 1
+    ip = IPAddr.new(subnet.cidr_block)
+    4.times { ip = ip.succ }
+    skip_ips = ip_addresses_assigned_to_servers
+    while skip_ips.include?(ip.to_s)
+      ip = ip.succ
+    end
+    ip.to_s
+  end
+
+  def ip_addresses_assigned_to_servers
+    fog_compute.servers.map {|s| s.private_ip_address}
+  end
+
+
   def create_vpc(name, cidr_block)
     vpc = fog_compute.vpcs.create(name: name, cidr_block: cidr_block)
     vpc.id
+  end
+
+  # @return [boolean] true if target OpenStack running Neutron networks
+  def networks?
+    vpcs.size > 0
+  end
+
+  def vpcs
+    fog_compute.vpcs
+  end
+
+  def subnets
+    fog_compute.subnets
   end
 
   # Creates a VPC subnet
@@ -200,6 +233,11 @@ class Cyoi::Providers::Clients::AwsProviderClient < Cyoi::Providers::Clients::Fo
       configuration[:provider] = "AWS"
       Fog::Storage.new(configuration)
     end
+  end
+
+  # Fog::Network does not exist for aws, use Fog::Compute instead
+  def fog_network
+    fog_compute
   end
 
   # Construct a Fog::Compute object
