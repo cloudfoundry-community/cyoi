@@ -2,33 +2,40 @@ require "cyoi/cli/provider_image/image_cli_base"
 class Cyoi::Cli::Image::ImageCliAws < Cyoi::Cli::Image::ImageCliBase
 
   def image_id
-    ubuntu_1304_image_id
+    trusty_image_id
   end
 
-  # Ubuntu 13.04
-  def ubuntu_1304_image_id
+  # Ubuntu 14.04
+  def trusty_image_id(region=nil)
     region = provider_client.attributes.region
     # http://cloud-images.ubuntu.com/locator/ec2/
+    # version: 14.04 LTS
+    # arch: amd64
+    # instance type: ebs-ssd (not hvm)
+    # Using release 20140927
     image_id = case region.to_s
     when "ap-northeast-1"
-      "ami-6b26ab6a"
+      "ami-df4b60de"
     when "ap-southeast-1"
-      "ami-2b511e79"
+      "ami-2ce7c07e"
     when "eu-west-1"
-      "ami-3d160149"
+      "ami-f6b11181"
     when "sa-east-1"
-      "ami-28e43e35"
+      "ami-71d2676c"
     when "us-east-1"
-      "ami-c30360aa"
+      "ami-98aa1cf0"
     when "us-west-1"
-      "ami-d383af96"
+      "ami-736e6536"
+    when "cn-north-1"
+      "ami-e642d0df"
     when "ap-southeast-2"
-      "ami-84a333be"
+      "ami-1f117325"
     when "us-west-2"
-      "ami-bf1d8a8f"
+      "ami-37501207"
     end
-    image_id || raise("Please add Ubuntu 13.04 64bit (EBS) AMI image id to aws.rb#raring_image_id method for region '#{region}'")
+    image_id || raise("Please add Ubuntu 14.04 64bit (EBS SSD) AMI image id to aws.rb#trusty_image_id method for region '#{region}'")
   end
+
 end
 
 Cyoi::Cli::Image.register_image_cli("aws", Cyoi::Cli::Image::ImageCliAws)

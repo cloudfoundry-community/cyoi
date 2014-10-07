@@ -10,6 +10,6 @@ describe "cyoi image aws" do
     setting "provider.credentials.aws_secret_access_key", "aws_secret_access_key"
     setting "provider.region", "us-west-2"
     run_interactive(unescape("cyoi image #{settings_dir}"))
-    assert_passing_with("Confirming: Using image ami-bf1d8a8f")
+    assert_passing_with("Confirming: Using image ami-37501207")
   end
 end

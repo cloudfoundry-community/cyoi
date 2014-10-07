@@ -28,10 +28,10 @@ describe "cyoi" do
       settings.image.image_id.should == "ami-123456"
     end
 
-    it "auto-selects Ubuntu 13.04 image in region" do
+    it "auto-selects Ubuntu 14.04 image in region" do
       capture_stdout { subject.execute! }
       reload_settings!
-      settings.image.image_id.should == "ami-bf1d8a8f"
+      settings.image.image_id.should == "ami-37501207"
     end
   end
 
