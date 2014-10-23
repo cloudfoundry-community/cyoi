@@ -27,7 +27,7 @@ class Cyoi::Cli::Image::ImageCliAws < Cyoi::Cli::Image::ImageCliBase
     when "us-west-1"
       "ami-736e6536"
     when "eu-central-1"
-      raise "Please let me know when http://cloud-images.ubuntu.com/locator/ec2/ releases a Trusty image for Frankfurt"
+        "ami-423c0a5f"
     when "cn-north-1"
       "ami-e642d0df"
     when "ap-southeast-2"
