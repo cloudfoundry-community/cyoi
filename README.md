@@ -27,10 +27,12 @@ Using provider aws:
 2. US West (Oregon) Region (us-west-2)
 3. US West (Northern California) Region (us-west-1)
 4. EU (Ireland) Region (eu-west-1)
-5. Asia Pacific (Singapore) Region (ap-southeast-1)
-6. Asia Pacific (Sydney) Region (ap-southeast-2)
-7. Asia Pacific (Tokyo) Region (ap-northeast-1)
-8. South America (Sao Paulo) Region (sa-east-1)
+5. EU (Frankfurt) Region (eu-central-1)
+6. Asia Pacific (Singapore) Region (ap-southeast-1)
+7. Asia Pacific (Sydney) Region (ap-southeast-2)
+8. Asia Pacific (Tokyo) Region (ap-northeast-1)
+9. South America (Sao Paulo) Region (sa-east-1)
+10. China (Beijing) Region (cn-north-1)
 Choose AWS region: 2
 
 Access key: KEYGOESHERE
@@ -70,9 +72,9 @@ gem "cyoi"
 Contributing
 ------------
 
-1. Fork it
-2. Create your feature branch (`git checkout -b my-new-feature`)
-3. Commit your changes (`git commit -am 'Add some feature'`)
-4. Push to the branch (`git push origin my-new-feature`)
-5. Create new Pull Request
-6. Send [@drnic](https://github.com/drnic) a big bag of Doritos
+1.	Fork it
+2.	Create your feature branch (`git checkout -b my-new-feature`)
+3.	Commit your changes (`git commit -am 'Add some feature'`)
+4.	Push to the branch (`git push origin my-new-feature`)
+5.	Create new Pull Request
+6.	Send [@drnic](https://github.com/drnic) a big bag of Doritos
