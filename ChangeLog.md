@@ -7,6 +7,7 @@ v0.11
 
 -	AWS VPC support - choose a VPC, choose a subnet, an IP is selected.
 -	AWS - Trusty AMIs if looking for an AMI [v0.11.1]
+-	AWS - New Germany/Frankfurt region [v0.11.2]
 
 v0.10
 -----
