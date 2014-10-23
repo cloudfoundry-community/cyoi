@@ -1,3 +1,4 @@
+require "cyoi/providers/constants/aws_constants"
 require "cyoi/cli/providers/provider_cli"
 class Cyoi::Cli::Providers::ProviderCliAws < Cyoi::Cli::Providers::ProviderCli
   def perform_and_return_attributes
@@ -52,17 +53,7 @@ class Cyoi::Cli::Providers::ProviderCliAws < Cyoi::Cli::Providers::ProviderCli
   protected
   # http://docs.aws.amazon.com/general/latest/gr/rande.html#region
   def region_labels
-    [
-      { label: "US East (Northern Virginia) Region", code: "us-east-1" },
-      { label: "US West (Oregon) Region", code: "us-west-2" },
-      { label: "US West (Northern California) Region", code: "us-west-1" },
-      { label: "EU (Ireland) Region", code: "eu-west-1" },
-      { label: "Asia Pacific (Singapore) Region", code: "ap-southeast-1" },
-      { label: "Asia Pacific (Sydney) Region", code: "ap-southeast-2" },
-      { label: "Asia Pacific (Tokyo) Region", code: "ap-northeast-1" },
-      { label: "South America (Sao Paulo) Region", code: "sa-east-1" },
-      { label: "China (Beijing) Region", code: "cn-north-1" },
-    ]
+    Cyoi::Providers::Constants::AwsConstants.region_labels
   end
 
   def default_region_code

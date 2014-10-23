@@ -26,6 +26,8 @@ class Cyoi::Cli::Image::ImageCliAws < Cyoi::Cli::Image::ImageCliBase
       "ami-98aa1cf0"
     when "us-west-1"
       "ami-736e6536"
+    when "eu-central-1"
+        "ami-423c0a5f"
     when "cn-north-1"
       "ami-e642d0df"
     when "ap-southeast-2"

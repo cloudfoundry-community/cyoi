@@ -27,8 +27,8 @@ module Cyoi::Cli::Helpers::Settings
         mkdir_p(settings_dir)
         File.open(settings_path, "w") { |file| file << "--- {}" }
       end
-      chmod(0600, settings_path)
-      chmod(0700, settings_ssh_dir) if File.directory?(settings_ssh_dir)
+      FileUtils.chmod(0600, settings_path)
+      FileUtils.chmod(0700, settings_ssh_dir) if File.directory?(settings_ssh_dir)
       ReadWriteSettings.new(settings_path)
     end
   end
