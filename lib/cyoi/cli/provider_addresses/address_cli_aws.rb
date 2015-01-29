@@ -72,7 +72,7 @@ class Cyoi::Cli::Addresses::AddressCliAws
   end
 
   def select_subnet_for_vpc(vpc)
-    subnets = provider_client.subnets.select {|subnet|  subnet.vpc_id = vpc.id}
+    subnets = provider_client.subnets.select {|subnet|  subnet.vpc_id == vpc.id}
     subnet = if subnets.size == 0
       $stderr.puts "ERROR: VPC #{pretty_vpc_name(vpc)} has no subnets yet."
       exit 1
