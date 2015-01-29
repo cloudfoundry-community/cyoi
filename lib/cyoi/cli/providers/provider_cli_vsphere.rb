@@ -17,7 +17,7 @@ class Cyoi::Cli::Providers::ProviderCliVsphere < Cyoi::Cli::Providers::ProviderC
     attributes.set_default("credentials", {})
     credentials = attributes.credentials
     credentials["vsphere_username"] = hl.ask("Username: ").to_s unless credentials.exists?("vsphere_username")
-    credentials["vsphere_password"] = hl.ask("Password: ").to_s unless credentials.exists?("vsphere_password")
+    credentials["vsphere_password"] = hl.ask("Password: ") { |q| q.echo = 'x' }) unless credentials.exists?("vsphere_password")
     credentials["vsphere_server"] = hl.ask("Server: ").to_s unless credentials.exists?("vsphere_server")
     credentials["vsphere_expected_pubkey_hash"] = hl.ask("Expected public key hash: ").to_s unless credentials.exists?("vsphere_expected_pubkey_hash")
   end
