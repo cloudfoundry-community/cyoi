@@ -35,7 +35,8 @@ Choose your infrastructure:
 
     assert_passing_with(<<-OUT.strip)
 Using provider OpenStack
-Username: Password: Tenant: Authorization Token URL: OpenStack Region (optional):
+Username: Password (API Key): xxxxxxxx
+Tenant: Authorization Token URL: OpenStack Region (optional):
     OUT
 
     assert_passing_with(<<-OUT.strip + " \n")
