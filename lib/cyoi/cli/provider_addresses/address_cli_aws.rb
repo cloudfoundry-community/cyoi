@@ -106,7 +106,7 @@ class Cyoi::Cli::Addresses::AddressCliAws
 
   def pretty_vpc_name(vpc)
     if name = vpc.tags["Name"]
-      "#{name} (#{vpc.cidr_block})"
+      "#{name} #{vpc.id} (#{vpc.cidr_block})"
     else
       "#{vpc.id} (#{vpc.cidr_block})"
     end
