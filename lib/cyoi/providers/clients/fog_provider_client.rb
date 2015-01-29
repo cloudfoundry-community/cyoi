@@ -147,6 +147,11 @@ class Cyoi::Providers::Clients::FogProviderClient
       defns = defns[:ports]
     end
 
+    # If we are passed an array of ports, preserve that
+    if defns.is_a?(Hash) && defns[:ports].is_a?(Array)
+      defns = defns[:ports]
+    end
+
     unless defns.is_a?(Array)
       defns = [defns]
     end

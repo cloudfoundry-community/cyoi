@@ -111,7 +111,7 @@ describe Cyoi::Providers::Clients::AwsProviderClient do
       expect(subject).to receive(:puts).with(" -> opened foo ports TCP 443..443 from IP range 0.0.0.0/0")
       expect(subject).to receive(:puts).with(" -> opened foo ports TCP 4443..4443 from IP range 0.0.0.0/0")
 
-      subject.create_security_group("foo", "foo", [22, 443, 4443])
+      subject.create_security_group("foo", "foo", {ports: [22, 443, 4443]})
     end
   end
 end
