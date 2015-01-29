@@ -3,17 +3,13 @@ Change Log
 
 Cyoi (choose-your-own-infrastructure) is a library to ask an end-user to choose an infrastructure (AWS, OpenStack, etc), region, and login credentials.
 
-v0.11.3
--------
-
-- AWS - Fixed bug that turned a list of ports into a range
-
 v0.11
 -----
 
 -	AWS VPC support - choose a VPC, choose a subnet, an IP is selected.
 -	AWS - Trusty AMIs if looking for an AMI [v0.11.1]
 -	AWS - New Germany/Frankfurt region [v0.11.2]
+- AWS - Fixed bug that turned a list of ports into a range [v0.11.3]
 
 v0.10
 -----
