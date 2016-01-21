@@ -16,6 +16,7 @@ module Cyoi::Providers::Constants::AwsConstants
       { label: "Asia Pacific (Singapore) Region", code: "ap-southeast-1" },
       { label: "Asia Pacific (Sydney) Region", code: "ap-southeast-2" },
       { label: "Asia Pacific (Tokyo) Region", code: "ap-northeast-1" },
+      { label: "Asia Pacific (Seoul) Region", code: "ap-northeast-2" },
       { label: "South America (Sao Paulo) Region", code: "sa-east-1" },
       { label: "China (Beijing) Region", code: "cn-north-1" },
     ]

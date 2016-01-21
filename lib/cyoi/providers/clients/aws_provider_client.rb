@@ -176,6 +176,8 @@ class Cyoi::Providers::Clients::AwsProviderClient < Cyoi::Providers::Clients::Fo
     image_id = case region.to_s
     when "ap-northeast-1"
       "ami-df4b60de"
+    when "ap-northeast-2"
+      "ami-09dc1267"
     when "ap-southeast-1"
       "ami-2ce7c07e"
     when "eu-west-1"
